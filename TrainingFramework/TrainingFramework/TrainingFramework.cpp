@@ -1,4 +1,4 @@
-// TrainingFramework.cpp : Defines the entry point for the console application.
+﻿// TrainingFramework.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
@@ -10,11 +10,13 @@
 
 
 GLuint vboId;
+GLuint iboId;
 Shaders myShaders;
 
 int Init ( ESContext *esContext )
 {
 	glClearColor ( 1.0f, 1.0f, 1.0f, 1.0f );
+	unsigned int indices[3] = { 0, 1, 2 };
 
 	//triangle data (heap)
 	Vertex verticesData[3];
@@ -23,11 +25,19 @@ int Init ( ESContext *esContext )
 	verticesData[1].pos.x = -0.5f;  verticesData[1].pos.y = -0.5f;  verticesData[1].pos.z =  0.0f;
 	verticesData[2].pos.x =  0.5f;  verticesData[2].pos.y = -0.5f;  verticesData[2].pos.z =  0.0f;
 
+	verticesData[0].color = Vector3(1.0, 0.0, 0.0);
+	verticesData[1].color = Vector3(0.0, 1.0, 0.0);
+	verticesData[2].color = Vector3(0.0, 0.0, 1.0);
+
 	//buffer object
 	glGenBuffers(1, &vboId);
 	glBindBuffer(GL_ARRAY_BUFFER, vboId);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(verticesData), verticesData, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glGenBuffers(1, &iboId);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	//creation of shaders and program 
 	return myShaders.Init("../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
@@ -42,11 +52,21 @@ void Draw ( ESContext *esContext )
 
 	glBindBuffer(GL_ARRAY_BUFFER, vboId);
 
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
+
+	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+
 	
 	if(myShaders.positionAttribute != -1)
 	{
 		glEnableVertexAttribArray(myShaders.positionAttribute);
 		glVertexAttribPointer(myShaders.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+	}
+
+	if (myShaders.colorAttribute != -1)
+	{
+		glEnableVertexAttribArray(myShaders.colorAttribute);
+		glVertexAttribPointer(myShaders.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)12);
 	}
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
@@ -69,6 +89,7 @@ void Key ( ESContext *esContext, unsigned char key, bool bIsPressed)
 void CleanUp()
 {
 	glDeleteBuffers(1, &vboId);
+	glDeleteBuffers(1, &iboId);
 }
 
 int _tmain(int argc, _TCHAR* argv[])
