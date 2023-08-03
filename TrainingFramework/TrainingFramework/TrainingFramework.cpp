@@ -50,28 +50,30 @@ void Draw ( ESContext *esContext )
 
 	glUseProgram(myShaders.program);
 
+	//Blind VBO
 	glBindBuffer(GL_ARRAY_BUFFER, vboId);
-
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
-
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
-
 	
+	//Thiet lap vertex attribute pointer cho vi tri
 	if(myShaders.positionAttribute != -1)
 	{
 		glEnableVertexAttribArray(myShaders.positionAttribute);
 		glVertexAttribPointer(myShaders.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
 	}
 
+	//Thiet lap vertex attribute pointer cho mau
 	if (myShaders.colorAttribute != -1)
 	{
 		glEnableVertexAttribArray(myShaders.colorAttribute);
 		glVertexAttribPointer(myShaders.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)12);
 	}
 
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	//glDrawArrays(GL_TRIANGLES, 0, 3);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//Ve Tam giac su dung glDrawElements thay vi glDrawArrays
+	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
 }
