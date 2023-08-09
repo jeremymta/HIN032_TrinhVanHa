@@ -1,15 +1,18 @@
 #pragma once
-//#include<string>
+#include<string>
+#include <GLES2/gl2.h>
 class Model
-{
+{	
 public:
-	Model(const char* path);
+	Model(char* filename);
 	~Model();
-	bool readFile(const char* path);
-private:
-	const char* pathToModel;
-	int iFaces;
-	int iVerticies;
+	int LoadModel(char* filename);
+	GLint getNumberOfVertices();
 
-	void processLine(const std::string& line);
+public:
+	int numVertices, numIndices;
+
+	GLuint m_vboId;
+	GLuint m_iboId;
+	GLint m_numberOfVertices;
 };

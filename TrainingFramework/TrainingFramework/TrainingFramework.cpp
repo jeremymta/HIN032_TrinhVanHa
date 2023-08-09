@@ -7,38 +7,38 @@
 #include "Shaders.h"
 #include "Globals.h"
 #include <conio.h>
+#include "Model.h"
 
-
-GLuint vboId;
-GLuint iboId;
 GLuint textureID;
 Shaders myShaders;
+
+Model* model = new Model("../Resources/Models/Woman1.nfg");
 
 int Init ( ESContext *esContext )
 {
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	
+	model->LoadModel("../Resources/Models/Woman1.nfg");
 
-	//triangle data (heap)
-	Vertex verticesData[]{
-		// pos               //textCoord
-		{{-0.5f,0.5f,0.f},  {0.f,1.0f}},
-		{{-0.5f,-0.5f,0.f}, {0.f,0.f}},
-		{{0.5f,-0.5f,0.f},  {1.f,0.f}},
-		{{0.5f,0.5f,0.f},  {1.f,1.f}}
-	};
-	unsigned int indices[] = { 0,1,2, 0, 2, 3};
+	////triangle data (heap)
+	//Vertex verticesData[]{
+	//	// pos               //textCoord
+	//	{{-0.5f,0.5f,0.f},  {0.f,1.0f}},
+	//	{{-0.5f,-0.5f,0.f}, {0.f,0.f}},
+	//	{{0.5f,-0.5f,0.f},  {1.f,0.f}},
+	//	{{0.5f,0.5f,0.f},  {1.f,1.f}}
+	//};
+	//unsigned int indices[] = { 0,1,2, 0, 2, 3};
 
 	//buffer object
-	glGenBuffers(1, &vboId);
-	glBindBuffer(GL_ARRAY_BUFFER, vboId);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(verticesData), verticesData, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glGenBuffers(1, &vboId);
+	//glBindBuffer(GL_ARRAY_BUFFER, vboId);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(verticesData), verticesData, GL_STATIC_DRAW);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glGenBuffers(1, &iboId);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	//glGenBuffers(1, &iboId);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	//Generate the texture
 	glGenTextures(1, &textureID);
@@ -75,8 +75,8 @@ void Draw ( ESContext *esContext )
 	glUseProgram(myShaders.program);
 
 	//Bind VBO
-	glBindBuffer(GL_ARRAY_BUFFER, vboId);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
+	glBindBuffer(GL_ARRAY_BUFFER, model->m_vboId);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->m_iboId);
 	glBindTexture(GL_TEXTURE_2D, textureID);
 	
 	//Thiet lap vertex attribute pointer cho vi tri
@@ -99,7 +99,7 @@ void Draw ( ESContext *esContext )
 		glUniform1i(myShaders.iTextureLoc, 0);
 	}
 
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, model->numIndices, GL_UNSIGNED_INT, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -118,8 +118,8 @@ void Key ( ESContext *esContext, unsigned char key, bool bIsPressed)
 
 void CleanUp()
 {
-	glDeleteBuffers(1, &vboId);
-	glDeleteBuffers(1, &iboId);
+	glDeleteBuffers(1, &model->m_vboId);
+	glDeleteBuffers(1, &model->m_iboId);
 }
 
 int _tmain(int argc, _TCHAR* argv[])
