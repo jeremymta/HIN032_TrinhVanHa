@@ -36,9 +36,9 @@ int Model::LoadModel(char* filename)
 
 	fscanf(f, "NrIndices: %d\n", &numIndices);
 	iboData = new int[numIndices];
-	for (int i = 0; i < numIndices/3; i+=3)
+	for (int i = 0; i < numIndices/3; i+=1)
 	{
-		fscanf(f, "   %*d.    %d,    %d,    %d\n", &iboData[i], &iboData[i + 1], &iboData[i+ 2]);
+		fscanf(f, "   %*d.    %d,    %d,    %d\n", &iboData[3*i], &iboData[3*i + 1], &iboData[3*i+ 2]);
 	}
 
 	

@@ -23,7 +23,7 @@ int Init ( ESContext *esContext )
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	model = new Model("../Resources/Models/Woman1.nfg");
 	texture = new Texture;
-	texture->LoadTexture("..Rersources/Textures/Woman1.tag");
+	texture->LoadTexture("../Resources/Textures/Woman1.tga");
 
 	////triangle data (heap)
 	//Vertex verticesData[]{
@@ -86,7 +86,7 @@ void Draw ( ESContext *esContext )
 	glBindBuffer(GL_ARRAY_BUFFER, model->m_vboId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->m_iboId);
 	glBindTexture(GL_TEXTURE_2D, texture->m_TextureId);
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 	
 	//Thiet lap vertex attribute pointer cho vi tri
 	if(myShaders.positionAttribute != -1)
