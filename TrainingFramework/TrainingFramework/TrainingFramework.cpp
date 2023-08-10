@@ -9,21 +9,22 @@
 #include <conio.h>
 #include "Model.h"
 #include "Texture.h"
+#include "Object.h"
 
+//GLuint vboId;
+//GLuint iboId;
 //GLuint textureID;
 Shaders myShaders;
 
 //Model* model = new Model("../Resources/Models/Woman1.nfg");
-Model* model;
-
-Texture* texture;
-
+Object obj;
 int Init ( ESContext *esContext )
 {
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	model = new Model("../Resources/Models/Woman1.nfg");
-	texture = new Texture;
-	texture->LoadTexture("../Resources/Textures/Woman1.tga");
+	obj.Load("../Resources/Models/Woman1.nfg", "../Resources/Textures/Woman1.tga");
+	//model = new Model("../Resources/Models/Woman1.nfg");
+	//texture = new Texture;
+	//texture->LoadTexture("../Resources/Textures/Woman1.tga");
 
 	////triangle data (heap)
 	//Vertex verticesData[]{
@@ -78,40 +79,7 @@ int Init ( ESContext *esContext )
 void Draw ( ESContext *esContext )
 {
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_DEPTH_TEST);
-	glUseProgram(myShaders.program);
-	
-
-	//Bind VBO
-	glBindBuffer(GL_ARRAY_BUFFER, model->m_vboId);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->m_iboId);
-	glBindTexture(GL_TEXTURE_2D, texture->m_TextureId);
-	//glEnable(GL_DEPTH_TEST);
-	
-	//Thiet lap vertex attribute pointer cho vi tri
-	if(myShaders.positionAttribute != -1)
-	{
-		glEnableVertexAttribArray(myShaders.positionAttribute);
-		glVertexAttribPointer(myShaders.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-	}
-
-	// Thiet lap cho Texture 
-	if (myShaders.iTextCoordLoc != -1)
-	{
-		glEnableVertexAttribArray(myShaders.iTextCoordLoc);
-		glVertexAttribPointer(myShaders.iTextCoordLoc, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)sizeof(Vector3));
-	}
-
-	if (myShaders.iTextureLoc != -1)
-	{
-		glActiveTexture(GL_TEXTURE0);
-		glUniform1i(myShaders.iTextureLoc, 0);
-	}
-
-	glDrawElements(GL_TRIANGLES, model->numIndices, GL_UNSIGNED_INT, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	obj.Draw();
 	eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
 }
 
@@ -127,8 +95,9 @@ void Key ( ESContext *esContext, unsigned char key, bool bIsPressed)
 
 void CleanUp()
 {
-	glDeleteBuffers(1, &model->m_vboId);
-	glDeleteBuffers(1, &model->m_iboId);
+	glDeleteBuffers(1, &obj.m_model->m_vboId);
+	glDeleteBuffers(1, &obj.m_model->m_iboId);
+
 }
 
 int _tmain(int argc, _TCHAR* argv[])

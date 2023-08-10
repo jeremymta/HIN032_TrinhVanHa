@@ -5,6 +5,7 @@
 Model::Model(char* filename)
 {
 	LoadModel(filename);
+
 }
 
 Model::~Model()
@@ -14,9 +15,6 @@ Model::~Model()
 
 int Model::LoadModel(char* filename)
 {
-
-
-
 	FILE* f = fopen(filename, "r");
 	// kiem tra file ton tai
 	if (!f)

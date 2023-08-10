@@ -44,7 +44,7 @@ bool Texture::LoadTexture(char* filename)
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	delete[]imageData;
-	//return false;
+	return false;
 }
 
 
