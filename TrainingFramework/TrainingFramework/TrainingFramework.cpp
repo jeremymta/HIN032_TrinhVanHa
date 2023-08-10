@@ -8,16 +8,22 @@
 #include "Globals.h"
 #include <conio.h>
 #include "Model.h"
+#include "Texture.h"
 
-GLuint textureID;
+//GLuint textureID;
 Shaders myShaders;
 
-Model* model = new Model("../Resources/Models/Woman1.nfg");
+//Model* model = new Model("../Resources/Models/Woman1.nfg");
+Model* model;
+
+Texture* texture;
 
 int Init ( ESContext *esContext )
 {
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	model->LoadModel("../Resources/Models/Woman1.nfg");
+	model = new Model("../Resources/Models/Woman1.nfg");
+	texture = new Texture;
+	texture->LoadTexture("..Rersources/Textures/Woman1.tag");
 
 	////triangle data (heap)
 	//Vertex verticesData[]{
@@ -41,28 +47,28 @@ int Init ( ESContext *esContext )
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	//Generate the texture
-	glGenTextures(1, &textureID);
+	//glGenTextures(1, &textureID);
 
 	// Bind and load Texture data.
-	glBindTexture(GL_TEXTURE_2D, textureID);
-	int iWidth, iHeight, iBpp;
-	char* imageData = LoadTGA("../Resources/Textures/Woman1.tga", &iWidth, &iHeight, &iBpp);
-	if (imageData && iBpp == 24) {
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, iWidth, iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
-	}
-	else if (imageData && iBpp == 32) {
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
-	}
-	else {
-		return 0;
-	}
+	//glBindTexture(GL_TEXTURE_2D, textureID);
+	//int iWidth, iHeight, iBpp;
+	//char* imageData = LoadTGA("../Resources/Textures/Woman1.tga", &iWidth, &iHeight, &iBpp);
+	//if (imageData && iBpp == 24) {
+	//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, iWidth, iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+	//}
+	//else if (imageData && iBpp == 32) {
+	//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+	//}
+	//else {
+	//	return 0;
+	//}
 
-	//Setting texture parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	////Setting texture parameters
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	//glBindTexture(GL_TEXTURE_2D, 0);
 
 	//creation of shaders and program 
 	return myShaders.Init("../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
@@ -71,13 +77,16 @@ int Init ( ESContext *esContext )
 
 void Draw ( ESContext *esContext )
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_DEPTH_TEST);
 	glUseProgram(myShaders.program);
+	
 
 	//Bind VBO
 	glBindBuffer(GL_ARRAY_BUFFER, model->m_vboId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->m_iboId);
-	glBindTexture(GL_TEXTURE_2D, textureID);
+	glBindTexture(GL_TEXTURE_2D, texture->m_TextureId);
+	glEnable(GL_DEPTH_TEST);
 	
 	//Thiet lap vertex attribute pointer cho vi tri
 	if(myShaders.positionAttribute != -1)

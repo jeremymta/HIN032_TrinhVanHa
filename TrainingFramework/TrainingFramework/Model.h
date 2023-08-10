@@ -6,6 +6,7 @@ class Model
 public:
 	Model(char* filename);
 	~Model();
+
 	int LoadModel(char* filename);
 	GLint getNumberOfVertices();
 
