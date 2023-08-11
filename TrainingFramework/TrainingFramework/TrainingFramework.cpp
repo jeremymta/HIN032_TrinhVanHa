@@ -14,65 +14,66 @@
 //GLuint vboId;
 //GLuint iboId;
 //GLuint textureID;
-Shaders myShaders;
+//Shaders myShaders;
 
-//Model* model = new Model("../Resources/Models/Woman1.nfg");
+//Model* model = new Model("../Resources/Models/Woman1.nfg");;
 Object obj;
+
 int Init ( ESContext *esContext )
 {
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	obj.Load("../Resources/Models/Woman1.nfg", "../Resources/Textures/Woman1.tga");
-	//model = new Model("../Resources/Models/Woman1.nfg");
-	//texture = new Texture;
-	//texture->LoadTexture("../Resources/Textures/Woman1.tga");
+	obj.Load("../Resources/Models/Woman1.nfg", "../Resources/Textures/Woman1.tga", "../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
+		//model = new Model("../Resources/Models/Woman1.nfg");
+		//texture = new Texture;
+		//texture->LoadTexture("../Resources/Textures/Woman1.tga");
 
-	////triangle data (heap)
-	//Vertex verticesData[]{
-	//	// pos               //textCoord
-	//	{{-0.5f,0.5f,0.f},  {0.f,1.0f}},
-	//	{{-0.5f,-0.5f,0.f}, {0.f,0.f}},
-	//	{{0.5f,-0.5f,0.f},  {1.f,0.f}},
-	//	{{0.5f,0.5f,0.f},  {1.f,1.f}}
-	//};
-	//unsigned int indices[] = { 0,1,2, 0, 2, 3};
+		////triangle data (heap)
+		//Vertex verticesData[]{
+		//	// pos               //textCoord
+		//	{{-0.5f,0.5f,0.f},  {0.f,1.0f}},
+		//	{{-0.5f,-0.5f,0.f}, {0.f,0.f}},
+		//	{{0.5f,-0.5f,0.f},  {1.f,0.f}},
+		//	{{0.5f,0.5f,0.f},  {1.f,1.f}}
+		//};
+		//unsigned int indices[] = { 0,1,2, 0, 2, 3};
 
-	//buffer object
-	//glGenBuffers(1, &vboId);
-	//glBindBuffer(GL_ARRAY_BUFFER, vboId);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(verticesData), verticesData, GL_STATIC_DRAW);
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+		//buffer object
+		//glGenBuffers(1, &vboId);
+		//glBindBuffer(GL_ARRAY_BUFFER, vboId);
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(verticesData), verticesData, GL_STATIC_DRAW);
+		//glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	//glGenBuffers(1, &iboId);
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		//glGenBuffers(1, &iboId);
+		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
+		//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	//Generate the texture
-	//glGenTextures(1, &textureID);
+		//Generate the texture
+		//glGenTextures(1, &textureID);
 
-	// Bind and load Texture data.
-	//glBindTexture(GL_TEXTURE_2D, textureID);
-	//int iWidth, iHeight, iBpp;
-	//char* imageData = LoadTGA("../Resources/Textures/Woman1.tga", &iWidth, &iHeight, &iBpp);
-	//if (imageData && iBpp == 24) {
-	//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, iWidth, iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
-	//}
-	//else if (imageData && iBpp == 32) {
-	//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
-	//}
-	//else {
-	//	return 0;
-	//}
+		// Bind and load Texture data.
+		//glBindTexture(GL_TEXTURE_2D, textureID);
+		//int iWidth, iHeight, iBpp;
+		//char* imageData = LoadTGA("../Resources/Textures/Woman1.tga", &iWidth, &iHeight, &iBpp);
+		//if (imageData && iBpp == 24) {
+		//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, iWidth, iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+		//}
+		//else if (imageData && iBpp == 32) {
+		//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+		//}
+		//else {
+		//	return 0;
+		//}
 
-	////Setting texture parameters
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	//glBindTexture(GL_TEXTURE_2D, 0);
+		////Setting texture parameters
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		//glBindTexture(GL_TEXTURE_2D, 0);
 
-	//creation of shaders and program 
-	return myShaders.Init("../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
+		//creation of shaders and program 
+		return 0;
 
 }
 
@@ -95,8 +96,9 @@ void Key ( ESContext *esContext, unsigned char key, bool bIsPressed)
 
 void CleanUp()
 {
-	glDeleteBuffers(1, &obj.m_model->m_vboId);
-	glDeleteBuffers(1, &obj.m_model->m_iboId);
+	//glDeleteBuffers(1, &obj.m_model->m_vboId);
+	//glDeleteBuffers(1, &obj.m_model->m_iboId);
+	obj.CleanUp();
 
 }
 

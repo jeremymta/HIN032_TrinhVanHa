@@ -5,28 +5,39 @@
 
 Object::Object()
 {
+
 }
 
 Object::~Object()
 {
-
+	delete m_model;
+	delete m_texture;
+	delete m_shader;
 }
 
-bool Object::Load(char* modelPath, char* texturePath) 
+bool Object::Load(char* modelPath, char* texturePath, char* VSpath, char* FSpath)
 {
-
-	m_model =  new Model(modelPath);
-	m_model->LoadModel(modelPath);
-	m_texture =  new Texture();
-	m_texture -> LoadTexture(texturePath);
+	m_model = new Model(modelPath);
+	m_texture = new Texture();
 	m_shader = new Shaders();
-	return m_shader -> Init("../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
+	m_model->LoadModel(modelPath);
+	m_texture->LoadTexture(texturePath);
+	m_shader->Init(VSpath, FSpath);
+	camera = new Camera();
+	return true;
+}
+
+void Object::CleanUp()
+{
+	glDeleteBuffers(1, &this->m_model->m_vboId);
+	glDeleteBuffers(1, &(this->m_model->m_iboId));
+	glDeleteTextures(1, &this->m_texture->m_TextureId);
+
 }
 
 void Object::Draw() {
-	glEnable(GL_DEPTH_TEST);
 	glUseProgram(m_shader -> program);
-
+	glEnable(GL_DEPTH_TEST);
 
 	//Bind VBO
 	glBindBuffer(GL_ARRAY_BUFFER, m_model->m_vboId);

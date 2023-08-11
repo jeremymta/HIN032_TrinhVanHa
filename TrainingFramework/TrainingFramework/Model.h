@@ -10,7 +10,6 @@ public:
 	int LoadModel(char* filename);
 	GLint getNumberOfVertices();
 
-public:
 	int numVertices, numIndices;
 
 	GLuint m_vboId;

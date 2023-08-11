@@ -1,6 +1,7 @@
 ﻿cl : command line  warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  Skipping... (no relevant changes detected)
+  stdafx.cpp
+cl : command line  warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  Skipping... (no relevant changes detected)
   esUtil_win.cpp
-  esUtil.cpp
-  esShader.cpp
-  Generating Code...
   Utilities.vcxproj -> C:\Users\han.glschool2\source\repos\HIN032_TrinhVanHa\TrainingFramework\Debug\Utilities.lib
