@@ -201,6 +201,11 @@ Vector3 Vector3::Cross(Vector3 & vector)
 	return Vector3(y * vector.z -  z * vector.y, z * vector.x - x * vector.z, x * vector.y - y * vector.x);
 }
 
+void Vector3::Display()
+{
+	printf("x: %f, y: %f, z: %f\n", x, y, z);
+}
+
 //Vector4
 
 GLfloat Vector4::Length()
@@ -537,6 +542,38 @@ Matrix & Matrix::SetPerspective(GLfloat fovY, GLfloat aspect, GLfloat nearPlane,
 	m[1][3] = 0;
 	m[2][3] = -1.f;
 	m[3][3] = 0;
+
+	return *this;
+}
+
+Matrix& Matrix::SetCameraRotateMatrix(Vector3& xAxis, Vector3& yAxis, Vector3& zAxis)
+{
+	m[0][0] = xAxis.x; m[0][1] = xAxis.y; m[0][2] = xAxis.z; m[0][3] = 0.0f;
+	m[1][0] = yAxis.x; m[1][1] = yAxis.y; m[1][2] = yAxis.z; m[1][3] = 0.0f;
+	m[2][0] = zAxis.x; m[2][1] = zAxis.y; m[2][2] = zAxis.z; m[2][3] = 0.0f;
+	m[3][0] = 0.0f	 ; m[3][1] = 0.f	; m[3][2] = 0.f	   ; m[3][3] = 1.0f;
+
+	return *this;
+}
+
+Matrix& Matrix::SetCameraViewMatrix(Vector3& xAxis, Vector3& yAxis, Vector3& zAxis, Vector3& position)
+{
+	// TODO: insert return statement here
+	m[0][0] = xAxis.x; m[0][1] = yAxis.x; m[0][2] = zAxis.x; m[0][3] = 0.0f;
+	m[1][0] = xAxis.y; m[1][1] = yAxis.y; m[1][2] = zAxis.y; m[1][3] = 0.0f;
+	m[2][0] = xAxis.z; m[2][1] = yAxis.z; m[2][2] = zAxis.z; m[2][3] = 0.0f;
+	m[3][0] = -(position.Dot(xAxis)); m[3][1] = -(position.Dot(yAxis)); m[3][2] = -(position.Dot(zAxis)); m[3][3] = 1.0f;
+
+	return *this;
+}
+
+Matrix& Matrix::SetCameraWorldMatrix(Vector3& xAxis, Vector3& yAxis, Vector3& zAxis, Vector3& position)
+{
+	// TODO: insert return statement here
+	m[0][0] = xAxis.x; m[0][1] = xAxis.y; m[0][2] = xAxis.z; m[0][3] = 0.0f;
+	m[1][0] = yAxis.x; m[1][1] = yAxis.y; m[1][2] = yAxis.z; m[1][3] = 0.0f;
+	m[2][0] = zAxis.x; m[2][1] = zAxis.y; m[2][2] = zAxis.z; m[2][3] = 0.0f;
+	m[3][0] = position.x; m[3][1] = position.y; m[3][2] = position.z; m[3][3] = 1.0f;
 
 	return *this;
 }

@@ -1,6 +1,4 @@
 ﻿cl : command line  warning D9035: option 'Gm' has been deprecated and will be removed in a future release
-  Object.cpp
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  TrainingFramework.cpp
+  Camera.cpp
+C:\Users\han.glschool2\source\repos\HIN032_TrinhVanHa\TrainingFramework\TrainingFramework\Camera.cpp(8,14): warning C4305: 'initializing': truncation from 'double' to 'float'
   TrainingFramework.vcxproj -> C:\Users\han.glschool2\source\repos\HIN032_TrinhVanHa\TrainingFramework\BIN\TrainingFramework.exe

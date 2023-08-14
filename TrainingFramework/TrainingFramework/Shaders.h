@@ -12,6 +12,8 @@ public:
 	GLint iTextureLoc;
 	GLint iTextCoordLoc;
 
+	GLint WVP_Mat;
+
 	int Init(char * fileVertexShader, char * fileFragmentShader);
 	~Shaders();
 };

@@ -3,6 +3,7 @@
 #include "Vertex.h"
 
 
+
 Object::Object()
 {
 
@@ -13,6 +14,7 @@ Object::~Object()
 	delete m_model;
 	delete m_texture;
 	delete m_shader;
+	delete camera;
 }
 
 bool Object::Load(char* modelPath, char* texturePath, char* VSpath, char* FSpath)
@@ -23,7 +25,13 @@ bool Object::Load(char* modelPath, char* texturePath, char* VSpath, char* FSpath
 	m_model->LoadModel(modelPath);
 	m_texture->LoadTexture(texturePath);
 	m_shader->Init(VSpath, FSpath);
+
 	camera = new Camera();
+	float PI = 3.14;
+	model.SetIdentity();
+	//model.Display();
+	WVP = model * camera->GetViewMatrix() * camera->GetPerspectiveMatrix();
+
 	return true;
 }
 
@@ -65,8 +73,35 @@ void Object::Draw() {
 		glUniform1i(m_shader->iTextureLoc, 0);
 	}
 
+	if (m_shader->WVP_Mat != -1) {
+		glUniformMatrix4fv(m_shader->WVP_Mat, 1, GL_FALSE, (float*)&WVP);
+	}
+
+
 	glDrawElements(GL_TRIANGLES, m_model->numIndices, GL_UNSIGNED_INT, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Object::Update(float deltaTime)
+{
+
+	/*Vector3 deltaMove = (camera->m_cameraTarget - camera->m_cameraPos).Normalize() * deltaTime * camera->m_MoveSpeed;
+	camera->m_cameraPos += deltaMove;
+	camera->m_cameraTarget += deltaMove;*/
+
+	//camera->m_cameraTarget.Display();
+
+	/*camera->RotateCounterClockWise(Camera_Rotate::xAxis, deltaTime * camera->m_RotateSpeed);
+	camera->UpdateCameraVector();*/
+	camera->UpdateCameraVector();
+	WVP = model * camera->GetViewMatrix() * camera->GetPerspectiveMatrix();
+}
+
+void Object::Move(float deltaTime)
+{
+	float velocity = moveSpeed * deltaTime;
+	model = model * Matrix().SetTranslation(-velocity, 0, 0);
+	//model.Display();
 }

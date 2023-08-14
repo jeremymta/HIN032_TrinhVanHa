@@ -22,7 +22,8 @@ Object obj;
 int Init ( ESContext *esContext )
 {
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	obj.Load("../Resources/Models/Woman1.nfg", "../Resources/Textures/Woman1.tga", "../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
+	obj.Load("../Resources/Models/Woman1.nfg", "../Resources/Textures/Woman1.tga", 
+			"../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
 		//model = new Model("../Resources/Models/Woman1.nfg");
 		//texture = new Texture;
 		//texture->LoadTexture("../Resources/Textures/Woman1.tga");
@@ -84,14 +85,108 @@ void Draw ( ESContext *esContext )
 	eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
 }
 
+int KeyPressed = 0;
 void Update ( ESContext *esContext, float deltaTime )
 {
+	obj.Update(deltaTime);
+	if (KeyPressed & 1)
+	{
+		obj.Move(deltaTime);
+	}
+	if (KeyPressed & (1 << 1)) 
+	{
+		obj.camera->Move(Camera_Movement::RIGHT, deltaTime);
+	}
+	if (KeyPressed & (1 << 2))
+	{
+		obj.camera->Move(FORWARD, deltaTime);
+	}
+	if (KeyPressed & (1 << 3))
+	{
+		obj.camera->Move(BACKWARD, deltaTime);
+	}
+	if (KeyPressed & (1 << 4)) {
+		obj.camera->RotateCounterClockWise(yAxis, deltaTime);
+	}
+	if (KeyPressed & (1 << 5)) {
+		obj.camera->RotateClockWise(yAxis, deltaTime);
+	}
+	if (KeyPressed & (1 << 6)) {
+		obj.camera->RotateCounterClockWise(xAxis, deltaTime);
+	}
+	if (KeyPressed & (1 << 7)) {
+		obj.camera->RotateClockWise(xAxis, deltaTime);
+	}
 
 }
 
 void Key ( ESContext *esContext, unsigned char key, bool bIsPressed)
 {
-
+	if (bIsPressed)
+	{
+		switch (key)
+		{
+		case KEY_LEFT:
+			KeyPressed |= 1;
+			break;
+		case KEY_RIGHT:
+			KeyPressed |= 1 << 1;
+			break;
+			// Tuong tu voi cac phim con lai, neu co 8 phim thi cuoi cung se la KeyPressed |= 1 << 7;
+		case KEY_UP:
+			KeyPressed |= 1 << 2;
+			break;
+		case KEY_DOWN:
+			KeyPressed |= 1 << 3;
+			break;
+		case KEY_MOVE_LEFT:
+			KeyPressed |= 1 << 4;
+			break;
+		case KEY_MOVE_RIGHT:
+			KeyPressed |= 1 << 5;
+			break;
+		case KEY_MOVE_FORWARD:
+			KeyPressed |= 1 << 6;
+			break;
+		case KEY_MOVE_BACKWORD:
+			KeyPressed |= 1 << 7;
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		switch (key)
+		{
+		case KEY_LEFT:
+			KeyPressed ^= 1;
+			break;
+		case KEY_RIGHT:
+			KeyPressed ^= 1 << 1;
+			break;
+		case KEY_UP:
+			KeyPressed ^= 1 << 2;
+			break;
+		case KEY_DOWN:
+			KeyPressed ^= 1 << 3;
+			break;
+		case KEY_MOVE_LEFT:
+			KeyPressed ^= 1 << 4;
+			break;
+		case KEY_MOVE_RIGHT:
+			KeyPressed ^= 1 << 5;
+			break;
+		case KEY_MOVE_FORWARD:
+			KeyPressed ^= 1 << 6;
+			break;
+		case KEY_MOVE_BACKWORD:
+			KeyPressed ^= 1 << 7;
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 void CleanUp()

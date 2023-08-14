@@ -27,6 +27,9 @@ int Shaders::Init(char * fileVertexShader, char * fileFragmentShader)
 	iTextureLoc = glGetUniformLocation(program, "u_texture");
 	iTextCoordLoc = glGetAttribLocation(program, "a_uv");
 
+	// Ma tran WVP
+	WVP_Mat = glGetUniformLocation(program, "u_WVP");
+
 	return 0;
 }
 

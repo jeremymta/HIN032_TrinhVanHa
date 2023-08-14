@@ -1,6 +1,7 @@
 #pragma once
 
 #include "esUtil.h"
+#include <stdio.h>
 
 //Vector2
 
@@ -64,6 +65,8 @@ public:
 	Vector3 Modulate(Vector3 & vector);
 	GLfloat Dot(Vector3 & vector);
 	Vector3 Cross(Vector3 & vector);
+
+	void Display();
 
 	//access to elements
 	GLfloat operator [] (unsigned int idx);
@@ -148,7 +151,11 @@ public:
 	Matrix & SetTranslation(GLfloat *pTrans);
 	Matrix & SetTranslation(Vector3 &vec);
 
-	Matrix & SetPerspective(GLfloat fovY, GLfloat aspect, GLfloat nearPlane, GLfloat farPlane);
+	Matrix & SetPerspective(GLfloat fovY, GLfloat aspect, GLfloat nearPlane, GLfloat farPlane);	
+	Matrix& SetCameraRotateMatrix(Vector3& xAxis, Vector3& yAxis, Vector3& zAxis);
+	Matrix& SetCameraViewMatrix(Vector3& xAxis, Vector3& yAxis, Vector3& zAxis, Vector3& position);
+	Matrix& SetCameraWorldMatrix(Vector3& xAxis, Vector3& yAxis, Vector3& zAxis, Vector3& position);
+
 
 	Matrix Transpose();
 
