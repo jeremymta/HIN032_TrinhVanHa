@@ -12,8 +12,7 @@ class Texture
 	
 		GLuint m_TextureId;
 		
-
-
+		GLuint getTextureId() { return m_TextureId; };
 
 
 };

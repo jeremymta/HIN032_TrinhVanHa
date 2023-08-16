@@ -19,7 +19,7 @@ Object::~Object()
 
 bool Object::Load(char* modelPath, char* texturePath, char* VSpath, char* FSpath)
 {
-	m_model = new Model(modelPath);
+	m_model = new Model();
 	m_texture = new Texture();
 	m_shader = new Shaders();
 	m_model->LoadModel(modelPath);

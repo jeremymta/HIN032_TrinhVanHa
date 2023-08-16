@@ -2,15 +2,26 @@
 #include "Model.h"
 #include "Vertex.h"
 
-Model::Model(char* filename)
+Model::Model()
 {
-	LoadModel(filename);
+	//LoadModel(filename);
+	numVertices = 0;
+	numIndices = 0;
+
+	m_vboId = 0;
+	m_iboId = 0;
+	m_numberOfVertices = 0;
 
 }
 
 Model::~Model()
 {
-
+	//if (m_vboId != 0) {
+	//	glDeleteTextures(1, &m_vboId);
+	//}
+	//if (m_iboId != 0) {
+	//	glDeleteTextures(1, &m_iboId);
+	//}
 }
 
 int Model::LoadModel(char* filename)

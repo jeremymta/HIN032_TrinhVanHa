@@ -10,9 +10,9 @@ Texture::Texture()
 }
 Texture::~Texture()
 {
-	if (m_TextureId != 0) {
-		glDeleteTextures(1, &m_TextureId);
-	}
+	//if (m_TextureId != 0) {
+	//	glDeleteTextures(1, &m_TextureId);
+	//}
 }
 
 bool Texture::LoadTexture(char* filename)

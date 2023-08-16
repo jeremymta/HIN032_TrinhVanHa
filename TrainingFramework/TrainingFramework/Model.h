@@ -5,7 +5,7 @@
 class Model
 {	
 public:
-	Model(char* filename);
+	Model();
 	~Model();
 
 	int LoadModel(char* filename);
@@ -16,4 +16,7 @@ public:
 	GLuint m_vboId;
 	GLuint m_iboId;
 	GLint m_numberOfVertices;
+
+	GLuint getVBOid() { return m_vboId; };
+	GLuint getIBOid() { return m_iboId; };
 };

@@ -2,14 +2,19 @@
 //
 
 #include "stdafx.h"
+#include <memory>
+#include <conio.h>
+#include <vector>
+#include <iostream>
+#include <Windows.h>
 #include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
 #include "Vertex.h"
 #include "Shaders.h"
 #include "Globals.h"
-#include <conio.h>
 #include "Model.h"
 #include "Texture.h"
 #include "Object.h"
+#include "ResourcesManager.h"
 
 //GLuint vboId;
 //GLuint iboId;
@@ -17,12 +22,16 @@
 //Shaders myShaders;
 
 //Model* model = new Model("../Resources/Models/Woman1.nfg");;
-Object obj;
+//Object obj;
+
+std::shared_ptr<Object> myObject = std::make_shared<Object>();
+GLuint keyPressed;
+std::shared_ptr<Camera> myCamera;
 
 int Init ( ESContext *esContext )
 {
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	obj.Load("../Resources/Models/Woman1.nfg", "../Resources/Textures/Woman1.tga", 
+	myObject->Load("../Resources/Models/Woman1.nfg", "../Resources/Textures/Woman1.tga", 
 			"../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
 		//model = new Model("../Resources/Models/Woman1.nfg");
 		//texture = new Texture;
@@ -81,41 +90,75 @@ int Init ( ESContext *esContext )
 void Draw ( ESContext *esContext )
 {
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	obj.Draw();
+	myObject->Draw();
+	////Bind VBO
+	//glBindBuffer(GL_ARRAY_BUFFER, m_model->m_vboId);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_model->m_iboId);
+	//glBindTexture(GL_TEXTURE_2D, m_texture->m_TextureId);
+	////glEnable(GL_DEPTH_TEST);
+
+	////Thiet lap vertex attribute pointer cho vi tri
+	//if (m_shader->positionAttribute != -1)
+	//{
+	//	glEnableVertexAttribArray(m_shader->positionAttribute);
+	//	glVertexAttribPointer(m_shader->positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+	//}
+
+	//// Thiet lap cho Texture 
+	//if (m_shader->iTextCoordLoc != -1)
+	//{
+	//	glEnableVertexAttribArray(m_shader->iTextCoordLoc);
+	//	glVertexAttribPointer(m_shader->iTextCoordLoc, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)sizeof(Vector3));
+	//}
+
+	//if (m_shader->iTextureLoc != -1)
+	//{
+	//	glActiveTexture(GL_TEXTURE0);
+	//	glUniform1i(m_shader->iTextureLoc, 0);
+	//}
+
+	//if (m_shader->WVP_Mat != -1) {
+	//	glUniformMatrix4fv(m_shader->WVP_Mat, 1, GL_FALSE, (float*)&WVP);
+	//}
+
+	//glDrawElements(GL_TRIANGLES, m_model->numIndices, GL_UNSIGNED_INT, 0);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	//glBindTexture(GL_TEXTURE_2D, 0);
 	eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
 }
 
 int KeyPressed = 0;
 void Update ( ESContext *esContext, float deltaTime )
 {
-	obj.Update(deltaTime);
+	myObject->Update(deltaTime);
 	if (KeyPressed & 1)
 	{
-		obj.Move(deltaTime);
+		myObject->Move(deltaTime);
 	}
 	if (KeyPressed & (1 << 1)) 
 	{
-		obj.camera->Move(Camera_Movement::RIGHT, deltaTime);
+		myObject->camera->Move(Camera_Movement::RIGHT, deltaTime);
 	}
 	if (KeyPressed & (1 << 2))
 	{
-		obj.camera->Move(FORWARD, deltaTime);
+		myObject->camera->Move(FORWARD, deltaTime);
 	}
 	if (KeyPressed & (1 << 3))
 	{
-		obj.camera->Move(BACKWARD, deltaTime);
+		myObject->camera->Move(BACKWARD, deltaTime);
 	}
 	if (KeyPressed & (1 << 4)) {
-		obj.camera->RotateCounterClockWise(yAxis, deltaTime);
+		myObject->camera->RotateCounterClockWise(yAxis, deltaTime);
 	}
 	if (KeyPressed & (1 << 5)) {
-		obj.camera->RotateClockWise(yAxis, deltaTime);
+		myObject->camera->RotateClockWise(yAxis, deltaTime);
 	}
 	if (KeyPressed & (1 << 6)) {
-		obj.camera->RotateCounterClockWise(xAxis, deltaTime);
+		myObject->camera->RotateCounterClockWise(xAxis, deltaTime);
 	}
 	if (KeyPressed & (1 << 7)) {
-		obj.camera->RotateClockWise(xAxis, deltaTime);
+		myObject->camera->RotateClockWise(xAxis, deltaTime);
 	}
 
 }
@@ -193,7 +236,7 @@ void CleanUp()
 {
 	//glDeleteBuffers(1, &obj.m_model->m_vboId);
 	//glDeleteBuffers(1, &obj.m_model->m_iboId);
-	obj.CleanUp();
+	myObject->CleanUp();
 
 }
 
