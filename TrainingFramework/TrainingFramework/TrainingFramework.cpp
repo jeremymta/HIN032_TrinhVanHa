@@ -24,15 +24,22 @@
 //Model* model = new Model("../Resources/Models/Woman1.nfg");;
 //Object obj;
 
-std::shared_ptr<Object> myObject = std::make_shared<Object>();
+//std::shared_ptr<Object> myObject = std::make_shared<Object>();
+Object* myObject;
+
 GLuint keyPressed;
 std::shared_ptr<Camera> myCamera;
+
 
 int Init ( ESContext *esContext )
 {
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	myObject->Load("../Resources/Models/Woman1.nfg", "../Resources/Textures/Woman1.tga", 
+	myObject = new Object("../Resources/Models/Woman1.nfg", "../Resources/Textures/Woman1.tga",
+		"../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
+	/*
+	myObject->Load("../Resources/Models/Woman1.nfg", "../Resources/Textures/Woman1.tga",
 			"../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
+	*/
 		//model = new Model("../Resources/Models/Woman1.nfg");
 		//texture = new Texture;
 		//texture->LoadTexture("../Resources/Textures/Woman1.tga");

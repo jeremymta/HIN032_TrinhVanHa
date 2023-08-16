@@ -19,10 +19,10 @@ enum Rotation {
 class Object
 {
 public:
-	Object();
+	Object(char* modelPath, char* texturePath, char* VSpath, char* FSpath);
 	~Object();
 
-	bool Load(char* modelPath, char* texturePath, char* VSpath, char* FSpath);
+	//bool Load(char* modelPath, char* texturePath, char* VSpath, char* FSpath);
 	
 	void Draw();
 

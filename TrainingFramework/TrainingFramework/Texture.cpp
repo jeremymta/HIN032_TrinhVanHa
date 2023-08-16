@@ -10,9 +10,9 @@ Texture::Texture()
 }
 Texture::~Texture()
 {
-	//if (m_TextureId != 0) {
-	//	glDeleteTextures(1, &m_TextureId);
-	//}
+	if (m_TextureId != 0) {
+		glDeleteTextures(1, &m_TextureId);
+	}
 }
 
 bool Texture::LoadTexture(char* filename)
@@ -26,11 +26,9 @@ bool Texture::LoadTexture(char* filename)
 	char* imageData = LoadTGA(filename, &iWidth, &iHeight, &iBpp);
 	if (imageData && iBpp == 24) {
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, iWidth, iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
-		printf("hahaha");
 	}
 	else if (imageData && iBpp == 32) {
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
-		printf("hahaha123");
 	}
 	else {
 		return true;

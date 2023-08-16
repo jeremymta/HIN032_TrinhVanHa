@@ -2,10 +2,20 @@
 #include "Object.h"
 #include "Vertex.h"
 
-
-
-Object::Object()
+Object::Object(char* modelPath, char* texturePath, char* VSpath, char* FSpath)
 {
+	m_model = new Model();
+	m_texture = new Texture();
+	m_shader = new Shaders();
+	m_model->LoadModel(modelPath);
+	m_texture->LoadTexture(texturePath);
+	m_shader->Init(VSpath, FSpath);
+
+	camera = new Camera();
+	float PI = 3.14;
+	model.SetIdentity();
+	//model.Display();
+	WVP = model * camera->GetViewMatrix() * camera->GetPerspectiveMatrix();
 
 }
 
@@ -17,6 +27,7 @@ Object::~Object()
 	delete camera;
 }
 
+/*
 bool Object::Load(char* modelPath, char* texturePath, char* VSpath, char* FSpath)
 {
 	m_model = new Model();
@@ -34,6 +45,7 @@ bool Object::Load(char* modelPath, char* texturePath, char* VSpath, char* FSpath
 
 	return true;
 }
+*/
 
 void Object::CleanUp()
 {

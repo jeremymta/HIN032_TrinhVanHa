@@ -16,12 +16,12 @@ Model::Model()
 
 Model::~Model()
 {
-	//if (m_vboId != 0) {
-	//	glDeleteTextures(1, &m_vboId);
-	//}
-	//if (m_iboId != 0) {
-	//	glDeleteTextures(1, &m_iboId);
-	//}
+	if (m_vboId != 0) {
+		glDeleteTextures(1, &m_vboId);
+	}
+	if (m_iboId != 0) {
+		glDeleteTextures(1, &m_iboId);
+	}
 }
 
 int Model::LoadModel(char* filename)
