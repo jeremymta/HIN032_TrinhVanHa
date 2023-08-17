@@ -117,3 +117,14 @@ void Object::Move(float deltaTime)
 	model = model * Matrix().SetTranslation(-velocity, 0, 0);
 	//model.Display();
 }
+
+
+void Object::SetCamera(Camera* camera)
+{
+	this->m_Camera = camera;
+}
+
+void Object::SetModelMatrix(Vector3 scale, Vector3 rotation, Vector3 position)
+{
+	model = Matrix().SetScale(scale) * Matrix().SetRotationZ(rotation[2]) * Matrix().SetRotationX(rotation[0]) * Matrix().SetRotationY(rotation[1]) * Matrix().SetTranslation(position);
+}

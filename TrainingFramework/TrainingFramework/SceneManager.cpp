@@ -1,20 +1,37 @@
 #include "stdafx.h"
-#include <vector>
-#include "Camera.h"
-#include "Object.h"
+#include <iostream>
+#include <fstream>
+#include "SceneManager.h"
+#include "ResourcesManager.h"
+#include "Globals.h"
 
+int ParseElementType(const std::string& type);
 
-void LoadScene(std::string sceneFile) {
-    // Load objects, cameras, lights from scene file
-
-    // Create each object
-
-    // Create each camera
+void SceneManager::Init()
+{
+	m_init = true;
 }
 
-void UpdateScene(float deltaTime) {
-    // Call update on each object
-  
+void SceneManager::CleanUp()
+{
+	for (auto& it : m_cameraList)
+	{
+		it.second.reset();
+	}
+	for (auto& it : m_objectList)
+	{
+		it.second.reset();
+	}
+	m_cameraList.clear();
+	m_objectList.clear();
+}
 
-    // Other methods (Init, Key, Cleanup, etc)
-};
+
+int ParseElementType(const std::string& type)
+{
+	if (type == "#Objects:")
+		return ET_OBJECT;
+	if (type == "#Cameras:")
+		return ET_CAMERA;
+	return ET_INVALID;
+}

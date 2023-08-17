@@ -25,12 +25,13 @@ public:
 	//bool Load(char* modelPath, char* texturePath, char* VSpath, char* FSpath);
 	
 	void Draw();
-
 	void CleanUp();
-
 	void Update(float deltaTime);
-
 	void Move(float deltaTime);
+
+	void SetCamera(Camera* camera);
+	void SetModelMatrix(Vector3 scale, Vector3 rotation, Vector3 position);
+	Camera* m_Camera;
 
 public: 
 	Model* m_model;

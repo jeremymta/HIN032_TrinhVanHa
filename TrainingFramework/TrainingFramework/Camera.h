@@ -42,6 +42,7 @@ private:
 	float m_FovY;
 	float m_AspectRatio;
 	float m_Near;
+
 	float m_Far;
 
 public:

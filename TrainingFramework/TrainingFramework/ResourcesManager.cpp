@@ -100,15 +100,63 @@ GLint ParseType(const std::string& type)
 
 void LoadModel(GLint count, std::ifstream& filePtr)
 {
-
+	std::string skipStr, filename;
+	GLint id;
+	for (int i = 0; i < count; ++i)
+	{
+		filePtr >> skipStr >> id >> skipStr >> filename;
+		filename.erase(std::remove_if(filename.begin(), filename.end(), [](char c) {return c == '\"'; }), filename.end());
+		filename = Globals::modelPath + filename;
+		std::shared_ptr<Model> model = std::make_shared<Model>();
+		model->LoadModel(filename);
+		m_modelList.insert(std::make_pair(id, model));
+	}
 }
 
 void LoadShader(GLint count, std::ifstream& filePtr)
 {
-
+	std::string skipStr, vs, fs;
+	GLint id;
+	for (int i = 0; i < count; ++i)
+	{
+		filePtr >> skipStr >> id >> skipStr >> vs >> skipStr >> fs;
+		vs.erase(std::remove_if(vs.begin(), vs.end(), [](char c) {return c == '\"'; }), vs.end());
+		fs.erase(std::remove_if(fs.begin(), fs.end(), [](char c) {return c == '\"'; }), fs.end());
+		vs = Globals::shaderPath + vs;
+		fs = Globals::shaderPath + fs;
+		auto shader = std::make_shared<Shaders>();
+		shader->Init(vs.c_str(), fs.c_str());
+		m_shaderList.insert(std::make_pair(id, shader));
+	}
 }
 
 void LoadTexture(GLint count, std::ifstream& filePtr)
 {
-
+	std::string skipStr, filename, wrap, filter;
+	GLint id;
+	for (int i = 0; i < count; ++i)
+	{
+		filePtr >> skipStr >> id >> skipStr >> filename >> skipStr >> wrap >> skipStr >> filter;
+		filename.erase(std::remove_if(filename.begin(), filename.end(), [](char c) {return c == '\"'; }), filename.end());
+		filename = Globals::texturePath + filename;
+		auto texture = std::make_shared<Texture>();
+		texture->LoadTexture(filename);
+		if (wrap == "CLAMP")
+		{
+			texture->SetWrap(GL_CLAMP_TO_EDGE);
+		}
+		else if (wrap == "REPEAT")
+		{
+			texture->SetWrap(GL_REPEAT);
+		}
+		if (filter == "LINEAR")
+		{
+			texture->SetFilter(GL_LINEAR);
+		}
+		else if (filter == "NEAREST")
+		{
+			texture->SetFilter(GL_NEAREST);
+		}
+		m_textureList.insert(std::make_pair(id, texture));
+	}
 }
