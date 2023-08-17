@@ -11,12 +11,28 @@ Object::Object(char* modelPath, char* texturePath, char* VSpath, char* FSpath)
 	m_texture->LoadTexture(texturePath);
 	m_shader->Init(VSpath, FSpath);
 
-	camera = new Camera();
 	float PI = 3.14;
+	camera = new Camera(0.1f, 500.f, PI / 4.f);
+
 	model.SetIdentity();
 	//model.Display();
 	WVP = model * camera->GetViewMatrix() * camera->GetPerspectiveMatrix();
 
+}
+Object::Object(Model* model, Texture* texture, Shaders* shader)
+{
+	m_model = model;
+	m_texture = texture;
+	m_shader = shader;
+
+	float PI = 3.14;
+	m_Camera = new Camera(0.1f, 500.f, PI / 4);
+
+	//model.SetRotationY(PI / 2);
+	this->model.SetIdentity();
+	this->model = Matrix().SetScale(5, 2, 2) * Matrix().SetRotationY(PI) * Matrix().SetTranslation(1, 0, 0);
+
+	//WVP = this->model * m_Camera->GetViewMatrix() * m_Camera->GetPerspectiveMatrix();
 }
 
 Object::~Object()

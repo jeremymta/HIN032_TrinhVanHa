@@ -1,33 +1,31 @@
 #pragma once
-#include <unordered_map>
-#include "Singleton.h"
+#include "stdafx.h"
+#include <vector>
 #include "Camera.h"
 #include "Object.h"
+#include <fstream>
 
-enum ElementType
+class SceneManager
 {
-	ET_CAMERA,
-	ET_OBJECT,
-	ET_INVALID = -1
-};
-
-class SceneManager final : public SingletonDclp<SceneManager>
-{
-public:
-	// APIs
-	void Init();
-	void CleanUp();
-	void LoadElements(const std::string& filename);
-	std::shared_ptr<Camera> getCamera(GLint camera_id);
-	std::shared_ptr<Object> getObject(GLint object_id);
-
-	bool m_init;
-
 private:
-	std::unordered_map<GLint, std::shared_ptr<Camera>> m_cameraList;
-	std::unordered_map<GLint, std::shared_ptr<Object>> m_objectList;
+	std::vector<Object*>* m_Objects;
+	Camera* m_Camera;
+	int KeyPress = 0;
 
-	// Utilities
-	void LoadObject(int count, std::ifstream& file);
-	void LoadCamera(int count, std::ifstream& file);
+public:
+	Camera* GetCamera() {
+		return this->m_Camera;
+	}
+	SceneManager() = default;
+	static SceneManager* GetInstance();
+	static SceneManager* s_Instance;
+
+	bool Init(char* pathToSM);
+
+	void Draw();
+	void Update(float deltaTime);
+	void Key(unsigned char key, bool bIsPressed);
+	void CleanUp();
+
 };
+

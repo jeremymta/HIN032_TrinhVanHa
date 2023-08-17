@@ -27,8 +27,14 @@ public:
 	std::shared_ptr<Shaders> getShader(GLint id);
 	std::shared_ptr<Texture> getTexture(GLint id);
 
+	bool m_init;
+
 private:
 	std::unordered_map<GLint, std::shared_ptr<Model>> m_modelList;
 	std::unordered_map<GLint, std::shared_ptr<Shaders>> m_shaderList;
 	std::unordered_map<GLint, std::shared_ptr<Texture>> m_textureList;
+
+	void LoadModel(GLint count, std::ifstream& filePtr);
+	void LoadShader(GLint count, std::ifstream& filePtr);
+	void LoadTexture(GLint count, std::ifstream& filePtr);
 };

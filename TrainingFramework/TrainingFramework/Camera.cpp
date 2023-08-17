@@ -3,7 +3,7 @@
 #include "Globals.h"
 
 
-Camera::Camera(Vector3 Postiton, Vector3 Target)
+Camera::Camera(float Near, float Far, float Fov, Vector3 Postiton, Vector3 Target)
 {
     float PI = 3.14;
     this->m_AspectRatio = Globals::screenWidth / (float)Globals::screenHeight;//Ty le khung hinh

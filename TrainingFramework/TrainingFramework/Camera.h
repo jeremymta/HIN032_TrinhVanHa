@@ -18,7 +18,7 @@ class Camera
 {
 public:
 	//Constructor khoi tao tat ca cac trang thai ban dau can thiet cho camera hoat dong.
-	Camera(Vector3 Postiton = Vector3(0.f, 0.f, -5.f), Vector3 Target = Vector3(0, 0, 0));
+	Camera(float Near, float Far, float Fov, Vector3 Postiton = Vector3(0.f, 0.f, -10.f), Vector3 Target = Vector3(0, 0, 0));
 
 	//Lay cac ma tran bien doi
 	Matrix GetWorldMatrix();

@@ -95,6 +95,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\Week 3\Day 12 We_16_08_2023\add_ResourcesManager\TrainingFramework\TrainingFramework\ResourcesManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Object.cpp" />

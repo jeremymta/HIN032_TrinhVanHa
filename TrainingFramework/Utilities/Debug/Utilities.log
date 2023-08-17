@@ -1,15 +1,15 @@
-﻿cl : command line  warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+﻿cl : command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
   stdafx.cpp
-cl : command line  warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+cl : command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
   TGA.cpp
   MemoryOperators.cpp
   MemoryManager.cpp
   Math.cpp
-C:\Users\han.glschool2\source\repos\HIN032_TrinhVanHa\TrainingFramework\Utilities\Math.cpp(10,13): warning C4244: 'return': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\han.glschool2\source\repos\HIN032_TrinhVanHa\TrainingFramework\Utilities\Math.cpp(104,13): warning C4244: 'return': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\han.glschool2\source\repos\HIN032_TrinhVanHa\TrainingFramework\Utilities\Math.cpp(213,13): warning C4244: 'return': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\trinh\OneDrive\Desktop\HIN032_GL\Clone From Git\HIN032_TrinhVanHa\TrainingFramework\Utilities\Math.cpp(10,13): warning C4244: 'return': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\trinh\OneDrive\Desktop\HIN032_GL\Clone From Git\HIN032_TrinhVanHa\TrainingFramework\Utilities\Math.cpp(104,13): warning C4244: 'return': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\trinh\OneDrive\Desktop\HIN032_GL\Clone From Git\HIN032_TrinhVanHa\TrainingFramework\Utilities\Math.cpp(213,13): warning C4244: 'return': conversion from 'double' to 'GLfloat', possible loss of data
   esUtil_win.cpp
   esUtil.cpp
   esShader.cpp
   Generating Code...
-  Utilities.vcxproj -> C:\Users\han.glschool2\source\repos\HIN032_TrinhVanHa\TrainingFramework\Debug\Utilities.lib
+  Utilities.vcxproj -> C:\Users\trinh\OneDrive\Desktop\HIN032_GL\Clone From Git\HIN032_TrinhVanHa\TrainingFramework\Debug\Utilities.lib

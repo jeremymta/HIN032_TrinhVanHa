@@ -7,6 +7,8 @@ class Texture
 	public:
 		Texture();
 		~Texture();
+		void SetFilter(GLint filter);
+		void SetWrap(GLint wrapMode);
 
 		bool LoadTexture(char* filename);
 	

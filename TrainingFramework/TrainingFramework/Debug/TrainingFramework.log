@@ -1,4 +1,5 @@
-﻿cl : command line  warning D9035: option 'Gm' has been deprecated and will be removed in a future release
-  SceneManager.cpp
-Camera.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
-  TrainingFramework.vcxproj -> C:\Users\han.glschool2\source\repos\HIN032_TrinhVanHa\TrainingFramework\BIN\TrainingFramework.exe
+﻿cl : command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  Camera.cpp
+C:\Users\trinh\OneDrive\Desktop\HIN032_GL\Clone From Git\HIN032_TrinhVanHa\TrainingFramework\TrainingFramework\Camera.cpp(8,20): warning C4305: 'initializing': truncation from 'double' to 'float'
+ResourcesManager.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+  TrainingFramework.vcxproj -> C:\Users\trinh\OneDrive\Desktop\HIN032_GL\Clone From Git\HIN032_TrinhVanHa\TrainingFramework\BIN\TrainingFramework.exe
