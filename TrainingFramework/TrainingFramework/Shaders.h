@@ -14,6 +14,6 @@ public:
 
 	GLint WVP_Mat;
 
-	int Init(char * fileVertexShader, char * fileFragmentShader);
+	int Init(const char* fileVertexShader, const char* fileFragmentShader);
 	~Shaders();
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include<string>
 #include <GLES2/gl2.h>
+#include "../Utilities/Math.h"
 
 class Model
 {	
@@ -8,10 +9,10 @@ public:
 	Model();
 	~Model();
 
-	int LoadModel(char* filename);
+	GLint LoadModel(const std::string& filename);
 	GLint getNumberOfVertices();
 
-	int numVertices, numIndices;
+	GLint numVertices, numIndices;
 
 	GLuint m_vboId;
 	GLuint m_iboId;

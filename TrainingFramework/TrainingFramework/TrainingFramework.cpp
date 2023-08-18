@@ -15,6 +15,8 @@
 #include "Texture.h"
 #include "Object.h"
 #include "ResourcesManager.h"
+#include "SceneManager.h"
+
 
 //GLuint vboId;
 //GLuint iboId;
@@ -25,17 +27,22 @@
 //Object obj;
 
 //std::shared_ptr<Object> myObject = std::make_shared<Object>();
-Object* myObject;
-
-GLuint keyPressed;
-std::shared_ptr<Camera> myCamera;
+//Object* myObject;
+//
+//GLuint keyPressed;
+//std::shared_ptr<Camera> myCamera;
 
 
 int Init ( ESContext *esContext )
 {
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	myObject = new Object("../Resources/Models/Woman1.nfg", "../Resources/Textures/Woman1.tga",
+	ResourcesManager::GetInstance()->LoadResources("resources.data");
+	SceneManager::GetInstance()->Init("../Resources/Manager/SceneManager.txt");
+
+	/*
+	myObject = new Object("../Resources/Models/Woman2.nfg", "../Resources/Textures/Woman2.tga",
 		"../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
+    */
 	/*
 	myObject->Load("../Resources/Models/Woman1.nfg", "../Resources/Textures/Woman1.tga",
 			"../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
@@ -97,7 +104,9 @@ int Init ( ESContext *esContext )
 void Draw ( ESContext *esContext )
 {
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	myObject->Draw();
+	SceneManager::GetInstance()->Draw();
+	
+	//myObject->Draw();
 	////Bind VBO
 	//glBindBuffer(GL_ARRAY_BUFFER, m_model->m_vboId);
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_model->m_iboId);
@@ -138,113 +147,120 @@ void Draw ( ESContext *esContext )
 int KeyPressed = 0;
 void Update ( ESContext *esContext, float deltaTime )
 {
-	myObject->Update(deltaTime);
-	if (KeyPressed & 1)
-	{
-		myObject->Move(deltaTime);
-	}
-	if (KeyPressed & (1 << 1)) 
-	{
-		myObject->camera->Move(Camera_Movement::RIGHT, deltaTime);
-	}
-	if (KeyPressed & (1 << 2))
-	{
-		myObject->camera->Move(FORWARD, deltaTime);
-	}
-	if (KeyPressed & (1 << 3))
-	{
-		myObject->camera->Move(BACKWARD, deltaTime);
-	}
-	if (KeyPressed & (1 << 4)) {
-		myObject->camera->RotateCounterClockWise(yAxis, deltaTime);
-	}
-	if (KeyPressed & (1 << 5)) {
-		myObject->camera->RotateClockWise(yAxis, deltaTime);
-	}
-	if (KeyPressed & (1 << 6)) {
-		myObject->camera->RotateCounterClockWise(xAxis, deltaTime);
-	}
-	if (KeyPressed & (1 << 7)) {
-		myObject->camera->RotateClockWise(xAxis, deltaTime);
-	}
+	SceneManager::GetInstance()->Update(deltaTime);
+	Camera* camera = SceneManager::GetInstance()->GetCamera();
+
+	//myObject->Update(deltaTime);
+	//if (KeyPressed & 1)
+	//{
+	//	myObject->Move(deltaTime);
+	//}
+	//if (KeyPressed & (1 << 1)) 
+	//{
+	//	myObject->camera->Move(Camera_Movement::RIGHT, deltaTime);
+	//}
+	//if (KeyPressed & (1 << 2))
+	//{
+	//	myObject->camera->Move(FORWARD, deltaTime);
+	//}
+	//if (KeyPressed & (1 << 3))
+	//{
+	//	myObject->camera->Move(BACKWARD, deltaTime);
+	//}
+	//if (KeyPressed & (1 << 4)) {
+	//	myObject->camera->RotateCounterClockWise(yAxis, deltaTime);
+	//}
+	//if (KeyPressed & (1 << 5)) {
+	//	myObject->camera->RotateClockWise(yAxis, deltaTime);
+	//}
+	//if (KeyPressed & (1 << 6)) {
+	//	myObject->camera->RotateCounterClockWise(xAxis, deltaTime);
+	//}
+	//if (KeyPressed & (1 << 7)) {
+	//	myObject->camera->RotateClockWise(xAxis, deltaTime);
+	//}
 
 }
 
 void Key ( ESContext *esContext, unsigned char key, bool bIsPressed)
 {
-	if (bIsPressed)
-	{
-		switch (key)
-		{
-		case KEY_LEFT:
-			KeyPressed |= 1;
-			break;
-		case KEY_RIGHT:
-			KeyPressed |= 1 << 1;
-			break;
-			// Tuong tu voi cac phim con lai, neu co 8 phim thi cuoi cung se la KeyPressed |= 1 << 7;
-		case KEY_UP:
-			KeyPressed |= 1 << 2;
-			break;
-		case KEY_DOWN:
-			KeyPressed |= 1 << 3;
-			break;
-		case KEY_MOVE_LEFT:
-			KeyPressed |= 1 << 4;
-			break;
-		case KEY_MOVE_RIGHT:
-			KeyPressed |= 1 << 5;
-			break;
-		case KEY_MOVE_FORWARD:
-			KeyPressed |= 1 << 6;
-			break;
-		case KEY_MOVE_BACKWORD:
-			KeyPressed |= 1 << 7;
-			break;
-		default:
-			break;
-		}
-	}
-	else
-	{
-		switch (key)
-		{
-		case KEY_LEFT:
-			KeyPressed ^= 1;
-			break;
-		case KEY_RIGHT:
-			KeyPressed ^= 1 << 1;
-			break;
-		case KEY_UP:
-			KeyPressed ^= 1 << 2;
-			break;
-		case KEY_DOWN:
-			KeyPressed ^= 1 << 3;
-			break;
-		case KEY_MOVE_LEFT:
-			KeyPressed ^= 1 << 4;
-			break;
-		case KEY_MOVE_RIGHT:
-			KeyPressed ^= 1 << 5;
-			break;
-		case KEY_MOVE_FORWARD:
-			KeyPressed ^= 1 << 6;
-			break;
-		case KEY_MOVE_BACKWORD:
-			KeyPressed ^= 1 << 7;
-			break;
-		default:
-			break;
-		}
-	}
+	SceneManager::GetInstance()->Key(key, bIsPressed);
+
+	//if (bIsPressed)
+	//{
+	//	switch (key)
+	//	{
+	//	case KEY_LEFT:
+	//		KeyPressed |= 1;
+	//		break;
+	//	case KEY_RIGHT:
+	//		KeyPressed |= 1 << 1;
+	//		break;
+	//		// Tuong tu voi cac phim con lai, neu co 8 phim thi cuoi cung se la KeyPressed |= 1 << 7;
+	//	case KEY_UP:
+	//		KeyPressed |= 1 << 2;
+	//		break;
+	//	case KEY_DOWN:
+	//		KeyPressed |= 1 << 3;
+	//		break;
+	//	case KEY_MOVE_LEFT:
+	//		KeyPressed |= 1 << 4;
+	//		break;
+	//	case KEY_MOVE_RIGHT:
+	//		KeyPressed |= 1 << 5;
+	//		break;
+	//	case KEY_MOVE_FORWARD:
+	//		KeyPressed |= 1 << 6;
+	//		break;
+	//	case KEY_MOVE_BACKWORD:
+	//		KeyPressed |= 1 << 7;
+	//		break;
+	//	default:
+	//		break;
+	//	}
+	//}
+	//else
+	//{
+	//	switch (key)
+	//	{
+	//	case KEY_LEFT:
+	//		KeyPressed ^= 1;
+	//		break;
+	//	case KEY_RIGHT:
+	//		KeyPressed ^= 1 << 1;
+	//		break;
+	//	case KEY_UP:
+	//		KeyPressed ^= 1 << 2;
+	//		break;
+	//	case KEY_DOWN:
+	//		KeyPressed ^= 1 << 3;
+	//		break;
+	//	case KEY_MOVE_LEFT:
+	//		KeyPressed ^= 1 << 4;
+	//		break;
+	//	case KEY_MOVE_RIGHT:
+	//		KeyPressed ^= 1 << 5;
+	//		break;
+	//	case KEY_MOVE_FORWARD:
+	//		KeyPressed ^= 1 << 6;
+	//		break;
+	//	case KEY_MOVE_BACKWORD:
+	//		KeyPressed ^= 1 << 7;
+	//		break;
+	//	default:
+	//		break;
+	//	}
+	//}
 }
 
 void CleanUp()
 {
 	//glDeleteBuffers(1, &obj.m_model->m_vboId);
 	//glDeleteBuffers(1, &obj.m_model->m_iboId);
-	myObject->CleanUp();
+	//myObject->CleanUp();
 
+	ResourcesManager::GetInstance()->CleanUp();
+	SceneManager::GetInstance()->CleanUp();
 }
 
 int _tmain(int argc, _TCHAR* argv[])

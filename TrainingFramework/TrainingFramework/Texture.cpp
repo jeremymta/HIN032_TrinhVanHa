@@ -57,15 +57,15 @@ void Texture::SetWrap(GLint wrapMode)
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-bool Texture::LoadTexture(char* filename)
+bool Texture::LoadTexture(const std::string& filename)
 {
 	//Generate the texture
 	glGenTextures(1, &m_TextureId);
 
 	// Bind and load Texture data.
 	glBindTexture(GL_TEXTURE_2D, m_TextureId);
-	int iWidth, iHeight, iBpp;
-	char* imageData = LoadTGA(filename, &iWidth, &iHeight, &iBpp);
+	GLint iWidth, iHeight, iBpp;
+	char* imageData = LoadTGA(filename.c_str(), &iWidth, &iHeight, &iBpp);
 	if (imageData && iBpp == 24) {
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, iWidth, iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
 	}

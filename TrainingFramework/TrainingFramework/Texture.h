@@ -10,7 +10,7 @@ class Texture
 		void SetFilter(GLint filter);
 		void SetWrap(GLint wrapMode);
 
-		bool LoadTexture(char* filename);
+		bool LoadTexture(const std::string& filename);
 	
 		GLuint m_TextureId;
 		
