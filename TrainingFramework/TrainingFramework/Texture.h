@@ -4,17 +4,17 @@
 
 class Texture
 {
-	public:
-		Texture();
-		~Texture();
-		void SetFilter(GLint filter);
-		void SetWrap(GLint wrapMode);
+public:
+	Texture();
+	~Texture();
+	void SetFilter(GLint filter);
+	void SetWrap(GLint wrapMode);
 
-		bool LoadTexture(const std::string& filename);
-	
-		GLuint m_TextureId;
-		
-		GLuint getTextureId() { return m_TextureId; };
+	bool LoadTexture(const std::string& filename);
+
+	GLuint m_TextureId;
+
+	GLuint getTextureId() { return m_TextureId; };
 
 
 };

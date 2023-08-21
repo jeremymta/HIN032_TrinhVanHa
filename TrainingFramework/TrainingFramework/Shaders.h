@@ -1,7 +1,7 @@
 #pragma once
 #include "../Utilities/utilities.h"
 
-class Shaders 
+class Shaders
 {
 public:
 	GLuint program, vertexShader, fragmentShader;

@@ -24,27 +24,39 @@
 //GLuint textureID;
 //Shaders myShaders;
 
-//Model* model = new Model("../Resources/Models/Woman1.nfg");;
-//Object obj;
+//std::shared_ptr<Object> myObject;
 
-//std::shared_ptr<Object> myObject = std::make_shared<Object>();
-Object* myObject;
-
-GLuint keyPressed;
+GLuint keyPressed = 0;
 std::shared_ptr<Camera> myCamera;
-
 
 int Init(ESContext* esContext)
 {
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	/*ResourcesManager::GetInstance()->LoadResources("resources.data");
+	glEnable(GL_DEPTH_TEST);
+	//myObject = std::make_shared<Object>("../Resources/Models/Woman2.nfg", "../Resources/Textures/Woman2.tga",
+	//	"../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
+
+	ResourcesManager::Construct();
+	//ResourcesManager::GetInstance()->Init();
+	ResourcesManager::GetInstance()->LoadResources("resources.data");
+	
+	//std::shared_ptr<Model> model = std::make_shared<Model>();
+	////model->LoadModel("../Resources/Models/Woman1.nfg");
+	//model = ResourcesManager::GetInstance()->getModel(0);
+
+	//std::shared_ptr<Shaders> shader = std::make_shared<Shaders>();
+	////shader->Init("../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
+	//shader = ResourcesManager::GetInstance()->getShader(0);
+
+	//std::shared_ptr <Texture> texture = std::make_shared<Texture>();
+	////texture->LoadTexture("../Resources/Textures/Woman1.tga");
+	//texture = ResourcesManager::GetInstance()->getTexture(0);
+
+	//myObject = std::make_shared<Object>(model, texture, shader);
+	
+
 	SceneManager::GetInstance()->Init("../Resources/Manager/SceneManager.txt");
-	*/
-
-
-	myObject = new Object("../Resources/Models/Woman2.nfg", "../Resources/Textures/Woman2.tga",
-		"../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
-
+	
 	/*
 	myObject->Load("../Resources/Models/Woman1.nfg", "../Resources/Textures/Woman1.tga",
 			"../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
@@ -106,9 +118,9 @@ int Init(ESContext* esContext)
 void Draw(ESContext* esContext)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//SceneManager::GetInstance()->Draw();
+	//myObject->Draw();
 
-	myObject->Draw();
+	SceneManager::GetInstance()->Draw();
 
 	////Bind VBO
 	//glBindBuffer(GL_ARRAY_BUFFER, m_model->m_vboId);
@@ -150,124 +162,129 @@ void Draw(ESContext* esContext)
 int KeyPressed = 0;
 void Update(ESContext* esContext, float deltaTime)
 {
-	//SceneManager::GetInstance()->Update(deltaTime);
-	//Camera* camera = SceneManager::GetInstance()->GetCamera();
+	SceneManager::GetInstance()->Update(deltaTime);
+	//std::shared_ptr<Camera> camera = SceneManager::GetInstance()->GetCamera();
 
-	myObject->Update(deltaTime);
+	
+	//myObject->Update(deltaTime);
 
-	if (KeyPressed & 1)
-	{
-		myObject->Move(deltaTime);
-	}
-	if (KeyPressed & 1) {
-		//obj->Move(deltaTime);
-		myObject->m_Camera->Move(Camera_Movement::LEFT, deltaTime);
-	}
-	if (KeyPressed & (1 << 1)) {
-		myObject->m_Camera->Move(Camera_Movement::RIGHT, deltaTime);
-	}
-	if (KeyPressed & (1 << 2))
-	{
-		myObject->m_Camera->Move(FORWARD, deltaTime);
-	}
-	if (KeyPressed & (1 << 3))
-	{
-		myObject->m_Camera->Move(BACKWARD, deltaTime);
-	}
-	if (KeyPressed & (1 << 4)) {
-		myObject->m_Camera->RotateCounterClockWise(yAxis, deltaTime);
-	}
-	if (KeyPressed & (1 << 5)) {
-		myObject->m_Camera->RotateClockWise(yAxis, deltaTime);
-	}
-	if (KeyPressed & (1 << 6)) {
-		myObject->m_Camera->RotateCounterClockWise(xAxis, deltaTime);
-	}
-	if (KeyPressed & (1 << 7)) {
-		myObject->m_Camera->RotateClockWise(xAxis, deltaTime);
-	}
-
+	//if (KeyPressed & 1)
+	//{
+	//	myObject->Move(deltaTime);
+	//}
+	//if (KeyPressed & 1) {
+	//	//obj->Move(deltaTime);
+	//	myObject->m_Camera->Move(Camera_Movement::LEFT, deltaTime);
+	//}
+	//if (KeyPressed & (1 << 1)) {
+	//	myObject->m_Camera->Move(Camera_Movement::RIGHT, deltaTime);
+	//}
+	//if (KeyPressed & (1 << 2))
+	//{
+	//	myObject->m_Camera->Move(FORWARD, deltaTime);
+	//}
+	//if (KeyPressed & (1 << 3))
+	//{
+	//	myObject->m_Camera->Move(BACKWARD, deltaTime);
+	//}
+	//if (KeyPressed & (1 << 4)) {
+	//	myObject->m_Camera->RotateCounterClockWise(yAxis, deltaTime);
+	//}
+	//if (KeyPressed & (1 << 5)) {
+	//	myObject->m_Camera->RotateClockWise(yAxis, deltaTime);
+	//}
+	//if (KeyPressed & (1 << 6)) {
+	//	myObject->m_Camera->RotateCounterClockWise(xAxis, deltaTime);
+	//}
+	//if (KeyPressed & (1 << 7)) {
+	//	myObject->m_Camera->RotateClockWise(xAxis, deltaTime);
+	//}
+	
 }
 
 void Key(ESContext* esContext, unsigned char key, bool bIsPressed)
 {
-	//SceneManager::GetInstance()->Key(key, bIsPressed);
+	SceneManager::GetInstance()->Key(key, bIsPressed);
 
-	if (bIsPressed)
-	{
-		switch (key)
-		{
-		case KEY_LEFT:
-			KeyPressed |= 1;
-			break;
-		case KEY_RIGHT:
-			KeyPressed |= 1 << 1;
-			break;
-			// Tuong tu voi cac phim con lai, neu co 8 phim thi cuoi cung se la KeyPressed |= 1 << 7;
-		case KEY_UP:
-			KeyPressed |= 1 << 2;
-			break;
-		case KEY_DOWN:
-			KeyPressed |= 1 << 3;
-			break;
-		case KEY_MOVE_LEFT:
-			KeyPressed |= 1 << 4;
-			break;
-		case KEY_MOVE_RIGHT:
-			KeyPressed |= 1 << 5;
-			break;
-		case KEY_MOVE_FORWARD:
-			KeyPressed |= 1 << 6;
-			break;
-		case KEY_MOVE_BACKWORD:
-			KeyPressed |= 1 << 7;
-			break;
-		default:
-			break;
-		}
-	}
-	else
-	{
-		switch (key)
-		{
-		case KEY_LEFT:
-			KeyPressed ^= 1;
-			break;
-		case KEY_RIGHT:
-			KeyPressed ^= 1 << 1;
-			break;
-		case KEY_UP:
-			KeyPressed ^= 1 << 2;
-			break;
-		case KEY_DOWN:
-			KeyPressed ^= 1 << 3;
-			break;
-		case KEY_MOVE_LEFT:
-			KeyPressed ^= 1 << 4;
-			break;
-		case KEY_MOVE_RIGHT:
-			KeyPressed ^= 1 << 5;
-			break;
-		case KEY_MOVE_FORWARD:
-			KeyPressed ^= 1 << 6;
-			break;
-		case KEY_MOVE_BACKWORD:
-			KeyPressed ^= 1 << 7;
-			break;
-		default:
-			break;
-		}
-	}
+	
+	//if (bIsPressed)
+	//{
+	//	switch (key)
+	//	{
+	//	case KEY_LEFT:
+	//		KeyPressed |= 1;
+	//		break;
+	//	case KEY_RIGHT:
+	//		KeyPressed |= 1 << 1;
+	//		break;
+	//		// Tuong tu voi cac phim con lai, neu co 8 phim thi cuoi cung se la KeyPressed |= 1 << 7;
+	//	case KEY_UP:
+	//		KeyPressed |= 1 << 2;
+	//		break;
+	//	case KEY_DOWN:
+	//		KeyPressed |= 1 << 3;
+	//		break;
+	//	case KEY_MOVE_LEFT:
+	//		KeyPressed |= 1 << 4;
+	//		break;
+	//	case KEY_MOVE_RIGHT:
+	//		KeyPressed |= 1 << 5;
+	//		break;
+	//	case KEY_MOVE_FORWARD:
+	//		KeyPressed |= 1 << 6;
+	//		break;
+	//	case KEY_MOVE_BACKWORD:
+	//		KeyPressed |= 1 << 7;
+	//		break;
+	//	default:
+	//		break;
+	//	}
+	//}
+	//else
+	//{
+	//	switch (key)
+	//	{
+	//	case KEY_LEFT:
+	//		KeyPressed ^= 1;
+	//		break;
+	//	case KEY_RIGHT:
+	//		KeyPressed ^= 1 << 1;
+	//		break;
+	//	case KEY_UP:
+	//		KeyPressed ^= 1 << 2;
+	//		break;
+	//	case KEY_DOWN:
+	//		KeyPressed ^= 1 << 3;
+	//		break;
+	//	case KEY_MOVE_LEFT:
+	//		KeyPressed ^= 1 << 4;
+	//		break;
+	//	case KEY_MOVE_RIGHT:
+	//		KeyPressed ^= 1 << 5;
+	//		break;
+	//	case KEY_MOVE_FORWARD:
+	//		KeyPressed ^= 1 << 6;
+	//		break;
+	//	case KEY_MOVE_BACKWORD:
+	//		KeyPressed ^= 1 << 7;
+	//		break;
+	//	default:
+	//		break;
+	//	}
+	//}
+	//
 }
 
 void CleanUp()
 {
 	//glDeleteBuffers(1, &obj.m_model->m_vboId);
 	//glDeleteBuffers(1, &obj.m_model->m_iboId);
-	myObject->CleanUp();
+	//myObject->CleanUp();
 
-	//ResourcesManager::GetInstance()->CleanUp();
-	//SceneManager::GetInstance()->CleanUp();
+	ResourcesManager::GetInstance()->CleanUp();
+	SceneManager::GetInstance()->CleanUp();
+	ResourcesManager::DestroyInstance();
+	SceneManager::GetInstance();
 }
 
 int _tmain(int argc, _TCHAR* argv[])

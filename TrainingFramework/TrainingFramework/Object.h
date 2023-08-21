@@ -4,6 +4,7 @@
 #include "Texture.h"
 #include "Shaders.h"
 #include "Camera.h"
+#include <memory>
 
 enum Movement {
 	MOVE_LEFT,
@@ -21,6 +22,7 @@ class Object
 public:
 	Object(char* modelPath, char* texturePath, char* VSpath, char* FSpath);
 	Object(Model* model, Texture* texture, Shaders* shader);
+	Object(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shaders> shader);
 	~Object();
 
 	//bool Load(char* modelPath, char* texturePath, char* VSpath, char* FSpath);
@@ -30,14 +32,19 @@ public:
 	void Update(float deltaTime);
 	void Move(float deltaTime);
 
-	void SetCamera(Camera* camera);
+	void SetCamera(std::shared_ptr<Camera> camera);
 	void SetModelMatrix(Vector3 scale, Vector3 rotation, Vector3 position);
-	Camera* m_Camera;
+	//Camera* m_Camera;
+	std::shared_ptr<Camera> m_Camera;
 
 public:
-	Model* m_model;
-	Texture* m_texture;
-	Shaders* m_shader;
+	//Model* m_model;
+	//Texture* m_texture;
+	//Shaders* m_shader;
+
+	std::shared_ptr<Model> m_model;
+	std::shared_ptr<Shaders> m_shader;
+	std::shared_ptr<Texture> m_texture;
 
 	Matrix worldMatrix;
 	Matrix WVP;

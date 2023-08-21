@@ -17,7 +17,7 @@ Camera::Camera(float Near, float Far, float Fov, Vector3 Postiton, Vector3 Targe
     //Khoi tao vi tri va diem nhin ban dau cua camera
     this->m_cameraPos = Postiton;
     this->m_cameraTarget = Target;
-    
+
     //Tinh toan ma tran perspective tu cac tham so khai bao o tren
     this->m_PerspectiveMatrix = m_PerspectiveMatrix.SetPerspective(m_FovY, m_AspectRatio, m_Near, m_Far);
 
@@ -64,10 +64,10 @@ void Camera::RotateClockWise(Camera_Rotate rot, float deltaTime)
     //Tinh goc xoay dua vao  toc do xoay va thoi gian troi qua
     float angle = deltaTime * m_RotateSpeed;
     //Xac dinh truc can xoay dua vao tham so rot
-    switch (rot) 
+    switch (rot)
     {
         // Xoay quanh truc X
-    case Camera_Rotate::xAxis:  
+    case Camera_Rotate::xAxis:
     {
         //Lay vecto diem tu toa do Local
         Vector4 localTarget = Vector4(0.f, 0.f, -(m_cameraTarget - m_cameraPos).Length(), 1.f);
@@ -140,7 +140,7 @@ void Camera::RotateCounterClockWise(Camera_Rotate rot, float deltaTime)
 
 
 //Di chuyen Camera va diem nhin dua theo cac vector truc va van toc tinh duoc
-void Camera::Move(Camera_Movement direction, float deltaTime) 
+void Camera::Move(Camera_Movement direction, float deltaTime)
 {
     //Tinh van toc dua tren toc do di chuyen va thoi gian
     float velocity = m_MoveSpeed * deltaTime;

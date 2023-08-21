@@ -4,7 +4,7 @@
 #include "../Utilities/Math.h"
 
 class Model
-{	
+{
 public:
 	Model();
 	~Model();
@@ -16,7 +16,7 @@ public:
 
 	GLuint m_vboId;
 	GLuint m_iboId;
-	GLint m_numberOfIndex;
+	GLint m_numberOfVertices;
 
 	GLuint getVBOid() { return m_vboId; };
 	GLuint getIBOid() { return m_iboId; };

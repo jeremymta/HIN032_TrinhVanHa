@@ -8,6 +8,7 @@ GLint ParseResourceType(const std::string& type);
 
 void ResourcesManager::Init()
 {
+
 }
 
 void ResourcesManager::CleanUp()
@@ -32,7 +33,6 @@ void ResourcesManager::CleanUp()
 		glDeleteTextures(1, &texId);
 		it->second.reset();
 	}
-
 	m_modelList.clear();
 	m_shaderList.clear();
 	m_textureList.clear();
@@ -113,7 +113,6 @@ std::shared_ptr<Texture> ResourcesManager::getTexture(GLint id)
 	return nullptr;
 }
 
-
 GLint ParseResourceType(const std::string& type)
 {
 	if (type == "#Models:")
@@ -137,7 +136,6 @@ void ResourcesManager::LoadModel(GLint count, std::ifstream& filePtr)
 		filename.erase(std::remove_if(filename.begin(), filename.end(), [](char c) {return c == '\"'; }), filename.end());
 		filename = Globals::modelPath + filename;
 		std::shared_ptr<Model> model = std::make_shared<Model>();
-		//model->LoadModel("../Resources/Models/Woman2.nfg");
 		model->LoadModel(filename);
 		m_modelList.insert(std::make_pair(id, model));
 	}
@@ -155,7 +153,6 @@ void ResourcesManager::LoadShader(GLint count, std::ifstream& filePtr)
 		vs = Globals::shaderPath + vs;
 		fs = Globals::shaderPath + fs;
 		auto shader = std::make_shared<Shaders>();
-		//shader->Init("../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
 		shader->Init(vs.c_str(), fs.c_str());
 		m_shaderList.insert(std::make_pair(id, shader));
 	}
@@ -171,7 +168,6 @@ void ResourcesManager::LoadTexture(GLint count, std::ifstream& filePtr)
 		filename.erase(std::remove_if(filename.begin(), filename.end(), [](char c) {return c == '\"'; }), filename.end());
 		filename = Globals::texturePath + filename;
 		auto texture = std::make_shared<Texture>();
-		//texture->LoadTexture("../Resources/Textures/Woman2.tga");
 		texture->LoadTexture(filename);
 		if (wrap == "CLAMP")
 		{
@@ -192,4 +188,3 @@ void ResourcesManager::LoadTexture(GLint count, std::ifstream& filePtr)
 		m_textureList.insert(std::make_pair(id, texture));
 	}
 }
-

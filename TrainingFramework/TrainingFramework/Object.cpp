@@ -1,46 +1,59 @@
 #include "stdafx.h"
 #include "Object.h"
 #include "Vertex.h"
+#include <memory>
 
 Object::Object(char* modelPath, char* texturePath, char* VSpath, char* FSpath)
 {
-	m_model = new Model();
-	m_texture = new Texture();
-	m_shader = new Shaders();
-	m_model->LoadModel(modelPath);
-	m_texture->LoadTexture(texturePath);
-	m_shader->Init(VSpath, FSpath);
-
-	float PI = 3.14;
-	m_Camera = new Camera(0.1f, 500.f, PI / 4.f);
-
-	worldMatrix.SetIdentity();
-	//model.Display();
-	WVP = worldMatrix * m_Camera->GetViewMatrix() * m_Camera->GetPerspectiveMatrix();
+	//	m_model = new Model();
+	//	m_texture = new Texture();
+	//	m_shader = new Shaders();
+	//	m_model->LoadModel(modelPath);
+	//	m_texture->LoadTexture(texturePath);
+	//	m_shader->Init(VSpath, FSpath);
+	//
+	//	float PI = 3.14;
+	//	m_Camera = new Camera(0.1f, 500.f, PI / 4.f);
+	//
+	//	worldMatrix.SetIdentity();
+	//	//model.Display();
+	//	WVP = worldMatrix * m_Camera->GetViewMatrix() * m_Camera->GetPerspectiveMatrix();
 
 }
 Object::Object(Model* model, Texture* texture, Shaders* shader)
+{
+		//m_model = model;
+		//m_texture = texture;
+		//m_shader = shader;
+	
+		float PI = 3.14;
+		//m_Camera = new Camera(0.1f, 500.f, PI / 4);
+	
+		//model.SetRotationY(PI / 2);
+		this->worldMatrix.SetIdentity();
+		this->worldMatrix = Matrix().SetScale(5, 2, 2) * Matrix().SetRotationY(PI) * Matrix().SetTranslation(1, 0, 0);
+	
+		//WVP = this->model * m_Camera->GetViewMatrix() * m_Camera->GetPerspectiveMatrix();
+}
+
+Object::Object(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shaders> shader)
 {
 	m_model = model;
 	m_texture = texture;
 	m_shader = shader;
 
 	float PI = 3.14;
-	m_Camera = new Camera(0.1f, 500.f, PI / 4);
+	m_Camera = std::make_shared<Camera>(0.1f, 500.f, PI / 4);
 
 	//model.SetRotationY(PI / 2);
 	this->worldMatrix.SetIdentity();
 	this->worldMatrix = Matrix().SetScale(5, 2, 2) * Matrix().SetRotationY(PI) * Matrix().SetTranslation(1, 0, 0);
-
-	//WVP = this->model * m_Camera->GetViewMatrix() * m_Camera->GetPerspectiveMatrix();
 }
+
 
 Object::~Object()
 {
-	delete m_model;
-	delete m_texture;
-	delete m_shader;
-	delete m_Camera;
+
 }
 
 /*
@@ -135,7 +148,7 @@ void Object::Move(float deltaTime)
 }
 
 
-void Object::SetCamera(Camera* camera)
+void Object::SetCamera(std::shared_ptr<Camera> camera)
 {
 	this->m_Camera = camera;
 }

@@ -9,15 +9,15 @@ class SceneManager
 {
 private:
 	std::vector<Object*>* m_Objects;
-	Camera* m_Camera;
+	std::shared_ptr<Camera> m_Camera;
 	int KeyPress = 0;
 
-
 public:
-	Camera* GetCamera() {
-		return this->m_Camera;
+	std::shared_ptr<Camera> GetCamera() {
+		return m_Camera;
 	}
 	SceneManager() = default;
+	~SceneManager() {};
 	static SceneManager* GetInstance();
 	static SceneManager* s_Instance;
 

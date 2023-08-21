@@ -19,3 +19,6 @@ ID 0
 VS "TextureShader.vs"
 FS "TextureShader.fs"
 
+#Sounds: 1
+ID 0
+FILE "Cowboy_OVERWORLD.wav"

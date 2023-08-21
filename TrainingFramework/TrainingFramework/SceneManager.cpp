@@ -53,11 +53,7 @@ bool SceneManager::Init(char* pathToSM)
 		sscanf_s(line.c_str(), "SHADER %d", &shader_ID);
 		shader = ResourcesManager::GetInstance()->getShader(shader_ID);
 
-		Model* rawModelPtr = model.get();
-		Texture* rawTexturePtr = texture.get();
-		Shaders* rawShaderPtr = shader.get();
-
-		Object* object = new Object(rawModelPtr, rawTexturePtr, rawShaderPtr);
+		Object* object = new Object(model, texture, shader);
 		Vector3 scalation, rotation, position;
 		float a, b, c;
 		std::getline(file, line);
@@ -79,6 +75,7 @@ bool SceneManager::Init(char* pathToSM)
 		texture = nullptr;
 		shader = nullptr;
 		object = nullptr;
+
 	}
 	std::getline(file, line);
 	float Near, Far, Fov, speed;
@@ -90,7 +87,7 @@ bool SceneManager::Init(char* pathToSM)
 	sscanf_s(line.c_str(), "%*s %f", &Fov);
 	std::getline(file, line);
 	sscanf_s(line.c_str(), "%*s %f", &speed);
-	m_Camera = new Camera(Near, Far, Fov);
+	m_Camera = std::make_shared<Camera>(Near, Far, Fov);
 	m_Camera->m_MoveSpeed = speed;
 
 	for (auto s : *m_Objects) {
@@ -101,7 +98,9 @@ bool SceneManager::Init(char* pathToSM)
 }
 void SceneManager::Draw()
 {
-	m_Objects->at(0)->Draw();
+	for (auto c : *m_Objects) {
+		c->Draw();
+	}
 	//m_Objects->at(1)->Draw();
 
 
@@ -210,13 +209,18 @@ SceneManager* SceneManager::s_Instance = nullptr;
 
 void SceneManager::CleanUp()
 {
-	/*for (auto s : *m_Objects) {
+	for (auto& s : *m_Objects) {
 		s->CleanUp();
-		printf("delete s");
-	}*/
+		delete s;
+	}
 	m_Objects->clear();
-	delete s_Instance;
-	//delete m_Camera;
-
+	delete m_Objects;
+	if (s_Instance)
+	{
+		delete s_Instance;
+	}
 	s_Instance = nullptr;
+
+
+	
 }

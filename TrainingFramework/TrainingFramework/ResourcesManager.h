@@ -8,7 +8,7 @@
 #include "Shaders.h"
 #include "Texture.h"
 #include "Camera.h"
-
+#include "Globals.h"
 
 enum ResourceType
 {
@@ -31,7 +31,6 @@ public:
 	std::shared_ptr<Texture> getTexture(GLint id);
 
 	bool m_init;
-
 private:
 	std::unordered_map<GLint, std::shared_ptr<Model>> m_modelList;
 	std::unordered_map<GLint, std::shared_ptr<Shaders>> m_shaderList;
