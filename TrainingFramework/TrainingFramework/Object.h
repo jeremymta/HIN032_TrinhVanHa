@@ -24,7 +24,7 @@ public:
 	~Object();
 
 	//bool Load(char* modelPath, char* texturePath, char* VSpath, char* FSpath);
-	
+
 	void Draw();
 	void CleanUp();
 	void Update(float deltaTime);
@@ -34,13 +34,12 @@ public:
 	void SetModelMatrix(Vector3 scale, Vector3 rotation, Vector3 position);
 	Camera* m_Camera;
 
-public: 
+public:
 	Model* m_model;
 	Texture* m_texture;
 	Shaders* m_shader;
-	Camera* camera;
 
-	Matrix model;
+	Matrix worldMatrix;
 	Matrix WVP;
 	float moveSpeed = 1.f;
 

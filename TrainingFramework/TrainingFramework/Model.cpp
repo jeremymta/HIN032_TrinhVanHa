@@ -10,20 +10,13 @@ Model::Model()
 	numVertices = 0;
 	numIndices = 0;
 
-	m_vboId = 0;
-	m_iboId = 0;
-	m_numberOfVertices = 0;
+	m_numberOfIndex = 0;
 
 }
 
 Model::~Model()
 {
-	if (m_vboId != 0) {
-		glDeleteTextures(1, &m_vboId);
-	}
-	if (m_iboId != 0) {
-		glDeleteTextures(1, &m_iboId);
-	}
+
 }
 
 GLint Model::LoadModel(const std::string& filename)
@@ -54,8 +47,8 @@ GLint Model::LoadModel(const std::string& filename)
 		fscanf_s(fmodel, "   %*d.    %d,    %d,    %d\n", &iboData[3*i], &iboData[3*i + 1], &iboData[3*i+ 2]);
 	}
 
+	m_numberOfIndex = numIndices;
 	
-
 	glGenBuffers(1, &m_vboId);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboId);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * numVertices, vboData, GL_STATIC_DRAW);
@@ -71,5 +64,5 @@ GLint Model::LoadModel(const std::string& filename)
 
 GLint Model::getNumberOfVertices()
 {
-	return m_numberOfVertices;
+	return m_numberOfIndex;
 }

@@ -1,11 +1,14 @@
 #include "stdafx.h"
 #include <fstream>
+#include <algorithm>
 #include "ResourcesManager.h"
+#include "Globals.h"
 
-void LoadModel(GLint count, std::ifstream& filePtr);
-void LoadShader(GLint count, std::ifstream& filePtr);
-void LoadTexture(GLint count, std::ifstream& filePtr);
+GLint ParseResourceType(const std::string& type);
 
+void ResourcesManager::Init()
+{
+}
 
 void ResourcesManager::CleanUp()
 {
@@ -29,7 +32,7 @@ void ResourcesManager::CleanUp()
 		glDeleteTextures(1, &texId);
 		it->second.reset();
 	}
-	
+
 	m_modelList.clear();
 	m_shaderList.clear();
 	m_textureList.clear();
@@ -38,67 +41,93 @@ void ResourcesManager::CleanUp()
 
 void ResourcesManager::LoadResources(const std::string& filename)
 {
-	std::string path = "../Resources/Scenes/" + filename;
+	std::string path = Globals::scenePath + filename;
 	std::ifstream resourcesFile(path);
-	std::string typeBuff;
+	if (!resourcesFile.is_open())
+	{
+		std::cerr << "Error opening file " << path << "\n";
+		m_init = false;
+		return;
+	}
+	std::string skipStr;
 	GLint count, type;
 	bool valid = true;
-	while (!resourcesFile.eof() && valid)
+	do
 	{
-		resourcesFile >> typeBuff;
-		type = ParseType(typeBuff);
+		if (!(resourcesFile >> skipStr >> count))
+		{
+			break;
+		}
+		type = ParseResourceType(skipStr);
 		switch (type)
 		{
-		case TYPE_MODEL:
-			resourcesFile >> count;
+		case RT_MODEL:
 			LoadModel(count, resourcesFile);
 			break;
-		case TYPE_SHADER:
-			resourcesFile >> count;
+		case RT_SHADER:
+			LoadShader(count, resourcesFile);
 			break;
-		case TYPE_TEXTURE:
-			resourcesFile >> count;
+		case RT_TEXTURE:
+			LoadTexture(count, resourcesFile);
 			break;
-		case TYPE_INVALID:
-			std::cout << "Invalid resources file, abort loading resources\n";
+		case RT_INVALID:
 			valid = false;
 			break;
 		default:
 			break;
 		}
-	}
-
+	} while (valid);
+	if (!valid) std::cout << "Resources file format error, abort loading resources\n";
 	resourcesFile.close();
 }
 
 std::shared_ptr<Model> ResourcesManager::getModel(GLint id)
 {
-	return std::shared_ptr<Model>();
+	auto it = m_modelList.find(id);
+	if (it != m_modelList.end())
+	{
+		return it->second;
+	}
+	return nullptr;
 }
 
 std::shared_ptr<Shaders> ResourcesManager::getShader(GLint id)
 {
-	return std::shared_ptr<Shaders>();
+	auto it = m_shaderList.find(id);
+	if (it != m_shaderList.end())
+	{
+		return it->second;
+	}
+	std::cerr << "ERR: Shader with id " << id << " not found!\n";
+	return nullptr;
 }
 
 std::shared_ptr<Texture> ResourcesManager::getTexture(GLint id)
 {
-	return std::shared_ptr<Texture>();
+	auto it = m_textureList.find(id);
+	if (it != m_textureList.end())
+	{
+		return it->second;
+	}
+	std::cerr << "ERR: Texture with id " << id << " not found!\n";
+	return nullptr;
 }
 
 
-GLint ParseType(const std::string& type)
+GLint ParseResourceType(const std::string& type)
 {
 	if (type == "#Models:")
-		return TYPE_MODEL;
+		return RT_MODEL;
 	if (type == "#Shaders:")
-		return TYPE_SHADER;
-	if (type == "#Textures:")
-		return TYPE_TEXTURE;
-	return TYPE_INVALID;
+		return RT_SHADER;
+	if (type == "#2D_Textures:")
+		return RT_TEXTURE;
+	if (type == "#Sounds:")
+		return RT_SOUND;
+	return RT_INVALID;
 }
 
-void LoadModel(GLint count, std::ifstream& filePtr)
+void ResourcesManager::LoadModel(GLint count, std::ifstream& filePtr)
 {
 	std::string skipStr, filename;
 	GLint id;
@@ -108,12 +137,13 @@ void LoadModel(GLint count, std::ifstream& filePtr)
 		filename.erase(std::remove_if(filename.begin(), filename.end(), [](char c) {return c == '\"'; }), filename.end());
 		filename = Globals::modelPath + filename;
 		std::shared_ptr<Model> model = std::make_shared<Model>();
+		//model->LoadModel("../Resources/Models/Woman2.nfg");
 		model->LoadModel(filename);
 		m_modelList.insert(std::make_pair(id, model));
 	}
 }
 
-void LoadShader(GLint count, std::ifstream& filePtr)
+void ResourcesManager::LoadShader(GLint count, std::ifstream& filePtr)
 {
 	std::string skipStr, vs, fs;
 	GLint id;
@@ -125,12 +155,13 @@ void LoadShader(GLint count, std::ifstream& filePtr)
 		vs = Globals::shaderPath + vs;
 		fs = Globals::shaderPath + fs;
 		auto shader = std::make_shared<Shaders>();
+		//shader->Init("../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
 		shader->Init(vs.c_str(), fs.c_str());
 		m_shaderList.insert(std::make_pair(id, shader));
 	}
 }
 
-void LoadTexture(GLint count, std::ifstream& filePtr)
+void ResourcesManager::LoadTexture(GLint count, std::ifstream& filePtr)
 {
 	std::string skipStr, filename, wrap, filter;
 	GLint id;
@@ -140,6 +171,7 @@ void LoadTexture(GLint count, std::ifstream& filePtr)
 		filename.erase(std::remove_if(filename.begin(), filename.end(), [](char c) {return c == '\"'; }), filename.end());
 		filename = Globals::texturePath + filename;
 		auto texture = std::make_shared<Texture>();
+		//texture->LoadTexture("../Resources/Textures/Woman2.tga");
 		texture->LoadTexture(filename);
 		if (wrap == "CLAMP")
 		{
@@ -160,3 +192,4 @@ void LoadTexture(GLint count, std::ifstream& filePtr)
 		m_textureList.insert(std::make_pair(id, texture));
 	}
 }
+

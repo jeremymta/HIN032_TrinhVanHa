@@ -1,4 +1,3 @@
-#pragma once
 #ifndef SINGLETON_DCLP_HPP_
 #define SINGLETON_DCLP_HPP_
 

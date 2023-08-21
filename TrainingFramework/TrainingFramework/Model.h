@@ -16,7 +16,7 @@ public:
 
 	GLuint m_vboId;
 	GLuint m_iboId;
-	GLint m_numberOfVertices;
+	GLint m_numberOfIndex;
 
 	GLuint getVBOid() { return m_vboId; };
 	GLuint getIBOid() { return m_iboId; };

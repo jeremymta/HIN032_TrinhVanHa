@@ -12,11 +12,11 @@ Object::Object(char* modelPath, char* texturePath, char* VSpath, char* FSpath)
 	m_shader->Init(VSpath, FSpath);
 
 	float PI = 3.14;
-	camera = new Camera(0.1f, 500.f, PI / 4.f);
+	m_Camera = new Camera(0.1f, 500.f, PI / 4.f);
 
-	model.SetIdentity();
+	worldMatrix.SetIdentity();
 	//model.Display();
-	WVP = model * camera->GetViewMatrix() * camera->GetPerspectiveMatrix();
+	WVP = worldMatrix * m_Camera->GetViewMatrix() * m_Camera->GetPerspectiveMatrix();
 
 }
 Object::Object(Model* model, Texture* texture, Shaders* shader)
@@ -29,8 +29,8 @@ Object::Object(Model* model, Texture* texture, Shaders* shader)
 	m_Camera = new Camera(0.1f, 500.f, PI / 4);
 
 	//model.SetRotationY(PI / 2);
-	this->model.SetIdentity();
-	this->model = Matrix().SetScale(5, 2, 2) * Matrix().SetRotationY(PI) * Matrix().SetTranslation(1, 0, 0);
+	this->worldMatrix.SetIdentity();
+	this->worldMatrix = Matrix().SetScale(5, 2, 2) * Matrix().SetRotationY(PI) * Matrix().SetTranslation(1, 0, 0);
 
 	//WVP = this->model * m_Camera->GetViewMatrix() * m_Camera->GetPerspectiveMatrix();
 }
@@ -40,7 +40,7 @@ Object::~Object()
 	delete m_model;
 	delete m_texture;
 	delete m_shader;
-	delete camera;
+	delete m_Camera;
 }
 
 /*
@@ -72,7 +72,7 @@ void Object::CleanUp()
 }
 
 void Object::Draw() {
-	glUseProgram(m_shader -> program);
+	glUseProgram(m_shader->program);
 	glEnable(GL_DEPTH_TEST);
 
 	//Bind VBO
@@ -123,14 +123,14 @@ void Object::Update(float deltaTime)
 
 	/*camera->RotateCounterClockWise(Camera_Rotate::xAxis, deltaTime * camera->m_RotateSpeed);
 	camera->UpdateCameraVector();*/
-	camera->UpdateCameraVector();
-	WVP = model * camera->GetViewMatrix() * camera->GetPerspectiveMatrix();
+	m_Camera->UpdateCameraVector();
+	WVP = worldMatrix * m_Camera->GetViewMatrix() * m_Camera->GetPerspectiveMatrix();
 }
 
 void Object::Move(float deltaTime)
 {
 	float velocity = moveSpeed * deltaTime;
-	model = model * Matrix().SetTranslation(-velocity, 0, 0);
+	worldMatrix = worldMatrix * Matrix().SetTranslation(-velocity, 0, 0);
 	//model.Display();
 }
 
@@ -142,5 +142,5 @@ void Object::SetCamera(Camera* camera)
 
 void Object::SetModelMatrix(Vector3 scale, Vector3 rotation, Vector3 position)
 {
-	model = Matrix().SetScale(scale) * Matrix().SetRotationZ(rotation[2]) * Matrix().SetRotationX(rotation[0]) * Matrix().SetRotationY(rotation[1]) * Matrix().SetTranslation(position);
+	worldMatrix = Matrix().SetScale(scale) * Matrix().SetRotationZ(rotation[2]) * Matrix().SetRotationX(rotation[0]) * Matrix().SetRotationY(rotation[1]) * Matrix().SetTranslation(position);
 }

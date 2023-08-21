@@ -12,6 +12,7 @@ private:
 	Camera* m_Camera;
 	int KeyPress = 0;
 
+
 public:
 	Camera* GetCamera() {
 		return this->m_Camera;

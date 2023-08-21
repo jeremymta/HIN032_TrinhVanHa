@@ -74,6 +74,7 @@ bool SceneManager::Init(char* pathToSM)
 		scalation.Display();
 		object->SetModelMatrix(scalation, rotation, position);
 		m_Objects->push_back(object);
+
 		model = nullptr;
 		texture = nullptr;
 		shader = nullptr;
@@ -101,7 +102,8 @@ bool SceneManager::Init(char* pathToSM)
 void SceneManager::Draw()
 {
 	m_Objects->at(0)->Draw();
-	m_Objects->at(1)->Draw();
+	//m_Objects->at(1)->Draw();
+
 
 }
 void SceneManager::Update(float deltaTime)

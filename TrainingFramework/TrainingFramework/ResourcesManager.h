@@ -9,17 +9,20 @@
 #include "Texture.h"
 #include "Camera.h"
 
+
 enum ResourceType
 {
-	TYPE_MODEL,
-	TYPE_SHADER,
-	TYPE_TEXTURE,
-	TYPE_INVALID = -1
+	RT_MODEL,
+	RT_SHADER,
+	RT_TEXTURE,
+	RT_SOUND,
+	RT_INVALID = -1
 };
 
 class ResourcesManager : public SingletonDclp<ResourcesManager>
 {
 public:
+	// APIs
 	void Init();
 	void CleanUp();
 	void LoadResources(const std::string& filename);
@@ -34,6 +37,7 @@ private:
 	std::unordered_map<GLint, std::shared_ptr<Shaders>> m_shaderList;
 	std::unordered_map<GLint, std::shared_ptr<Texture>> m_textureList;
 
+	// Utilities
 	void LoadModel(GLint count, std::ifstream& filePtr);
 	void LoadShader(GLint count, std::ifstream& filePtr);
 	void LoadTexture(GLint count, std::ifstream& filePtr);
