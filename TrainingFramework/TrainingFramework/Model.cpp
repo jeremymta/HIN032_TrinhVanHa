@@ -64,6 +64,11 @@ GLint Model::LoadModel(const std::string& filename)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLint) * numIndices, iboData, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
+
+	delete vboData;
+	delete iboData;
+	fclose(fmodel);
+
 	return 0;
 }
 
