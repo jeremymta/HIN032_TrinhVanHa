@@ -2,7 +2,7 @@
 #include <windows.h>
 #include "esUtil.h"
 
-
+POINT WDpoint;
 
 // Main window procedure
 LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) 
@@ -45,7 +45,121 @@ LRESULT WINAPI ESWindowProc ( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 			  if ( esContext && esContext->keyFunc )
 				  esContext->keyFunc ( esContext, (unsigned char) wParam, false );
 		  }
-		  break;
+	    break;
+    
+	  case WM_LBUTTONUP:
+	  {
+		  ESContext* esContext = (ESContext*)(LONG_PTR)GetWindowLongPtr(hWnd, GWL_USERDATA);
+		  POINT point;
+		  GetCursorPos(&point);
+
+		  if (esContext && esContext->mouseButtonFunc)
+		  {
+			  esContext->mouseButtonFunc(esContext, (int)point.x - WDpoint.x, (int)point.y - WDpoint.y, MOUSE_LEFT_BUTTON, false);
+		  }
+	  }
+	  break;
+
+	  case WM_RBUTTONUP:
+	  {
+		  ESContext* esContext = (ESContext*)(LONG_PTR)GetWindowLongPtr(hWnd, GWL_USERDATA);
+		  POINT point;
+		  GetCursorPos(&point);
+
+		  if (esContext && esContext->mouseButtonFunc)
+		  {
+			  esContext->mouseButtonFunc(esContext, (int)point.x - WDpoint.x, (int)point.y - WDpoint.y, MOUSE_RIGHT_BUTTON, false);
+		  }
+	  }
+	  break;
+
+	  case WM_LBUTTONDOWN:
+	  {
+		  ESContext* esContext = (ESContext*)(LONG_PTR)GetWindowLongPtr(hWnd, GWL_USERDATA);
+		  POINT point;
+		  GetCursorPos(&point);
+
+		  if (esContext && esContext->mouseButtonFunc)
+		  {
+			  esContext->mouseButtonFunc(esContext, (int)point.x - WDpoint.x, (int)point.y - WDpoint.y, MOUSE_LEFT_BUTTON, true);
+		  }
+	  }
+	  break;
+
+	  case WM_RBUTTONDOWN:
+	  {
+		  ESContext* esContext = (ESContext*)(LONG_PTR)GetWindowLongPtr(hWnd, GWL_USERDATA);
+		  POINT point;
+		  GetCursorPos(&point);
+
+		  if (esContext && esContext->mouseButtonFunc)
+		  {
+			  esContext->mouseButtonFunc(esContext, (int)point.x - WDpoint.x, (int)point.y - WDpoint.y, MOUSE_RIGHT_BUTTON, true);
+		  }
+	  }
+	  break;
+
+	  case WM_XBUTTONDOWN:
+	  {
+		  ESContext* esContext = (ESContext*)(LONG_PTR)GetWindowLongPtr(hWnd, GWL_USERDATA);
+		  POINT point;
+		  GetCursorPos(&point);
+		  WORD btn = GET_XBUTTON_WPARAM(wParam);
+
+		  if (esContext && esContext->mouseButtonFunc)
+		  {
+			  esContext->mouseButtonFunc(esContext, (int)point.x - WDpoint.x, (int)point.y - WDpoint.y, btn == XBUTTON1 ? MOUSE_BACK_BUTTON : MOUSE_FORWARD_BUTTON, true);
+		  }
+	  }
+	  break;
+
+	  case WM_XBUTTONUP:
+	  {
+		  ESContext* esContext = (ESContext*)(LONG_PTR)GetWindowLongPtr(hWnd, GWL_USERDATA);
+		  POINT point;
+		  GetCursorPos(&point);
+		  WORD btn = GET_XBUTTON_WPARAM(wParam);
+
+		  if (esContext && esContext->mouseButtonFunc)
+		  {
+			  esContext->mouseButtonFunc(esContext, (int)point.x - WDpoint.x, (int)point.y - WDpoint.y, btn == XBUTTON1 ? MOUSE_BACK_BUTTON : MOUSE_FORWARD_BUTTON, false);
+		  }
+	  }
+	  break;
+
+	  case WM_MOUSEWHEEL:
+	  {
+		  ESContext* esContext = (ESContext*)(LONG_PTR)GetWindowLongPtr(hWnd, GWL_USERDATA);
+		  short delta = GET_WHEEL_DELTA_WPARAM(wParam);
+		  POINT point;
+		  GetCursorPos(&point);
+
+		  if (esContext && esContext->mouseScrollFunc)
+		  {
+			  esContext->mouseScrollFunc(esContext, (int)point.x - WDpoint.x, (int)point.y - WDpoint.y, delta);
+		  }
+	  }
+	  break;
+
+	  case WM_MOUSEMOVE:
+	  {
+		  ESContext* esContext = (ESContext*)(LONG_PTR)GetWindowLongPtr(hWnd, GWL_USERDATA);
+		  POINT point;
+		  GetCursorPos(&point);
+
+		  if (esContext && esContext->mouseMoveFunc)
+		  {
+			  esContext->mouseMoveFunc(esContext, (int)point.x, (int)point.y);
+		  }
+	  }
+	  break;
+
+	  case WM_MOVE:
+	  {
+		  WDpoint.x = (int)LOWORD(lParam);
+		  WDpoint.y = (int)HIWORD(lParam);
+	  }
+	  break;
          
       default: 
          lRet = DefWindowProc (hWnd, uMsg, wParam, lParam); 

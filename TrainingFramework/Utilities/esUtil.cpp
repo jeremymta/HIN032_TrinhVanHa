@@ -172,6 +172,26 @@ void ESUTIL_API esRegisterKeyFunc ( ESContext *esContext,
    esContext->keyFunc = keyFunc;
 }
 
+// mouse func
+void ESUTIL_API esRegisterMouseButtonFunc(ESContext* esContext,
+    void (ESCALLBACK* mouseButtonFunc) (ESContext*, int, int, unsigned char, bool))
+{
+    esContext->mouseButtonFunc = mouseButtonFunc;
+}
+
+// mouse scroll
+void ESUTIL_API esRegisterMouseScrollFunc(ESContext* esContext,
+    void(ESCALLBACK* mouseScrollFunc) (ESContext*, int, int, short))
+{
+    esContext->mouseScrollFunc = mouseScrollFunc;
+}
+
+// mouse move
+void ESUTIL_API esRegisterMouseMoveFunc(ESContext* esContext,
+    void (ESCALLBACK* mouseMoveFunc) (ESContext*, int, int))
+{
+    esContext->mouseMoveFunc = mouseMoveFunc;
+}
 
 
 // esLogMessage()
@@ -190,4 +210,3 @@ void ESUTIL_API esLogMessage ( const char *formatStr, ... )
     
     va_end ( params );
 }
-
