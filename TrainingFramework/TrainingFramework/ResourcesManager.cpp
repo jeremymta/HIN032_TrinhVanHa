@@ -121,8 +121,6 @@ GLint ParseResourceType(const std::string& type)
 		return RT_SHADER;
 	if (type == "#2D_Textures:")
 		return RT_TEXTURE;
-	if (type == "#Sounds:")
-		return RT_SOUND;
 	return RT_INVALID;
 }
 

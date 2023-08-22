@@ -3,6 +3,7 @@
 #include "Vertex.h"
 #include <cstdio>
 #include <iostream>
+#include <fstream>
 
 
 Model::Model()
@@ -41,7 +42,7 @@ GLint Model::LoadModel(const std::string& filename)
 	vboData = new Vertex[numVertices];
 	for (int i = 0; i < numVertices; i++)
 	{
-		fscanf(fmodel, "   %*d. pos:[%f, %f, %f]; norm:[%*f, %*f, %*f]; binorm:[%*f, %*f, %*f]; tgt:[%*f, %*f, %*f]; uv:[%f, %f];\n", &vboData[i].pos.x, &vboData[i].pos.y, &vboData[i].pos.z, &vboData[i].uv.x, &vboData[i].uv.y);
+		fscanf_s(fmodel, "   %*d. pos:[%f, %f, %f]; norm:[%*f, %*f, %*f]; binorm:[%*f, %*f, %*f]; tgt:[%*f, %*f, %*f]; uv:[%f, %f];\n", &vboData[i].pos.x, &vboData[i].pos.y, &vboData[i].pos.z, &vboData[i].uv.x, &vboData[i].uv.y);
 		vboData[i].pos.y -= 1;
 	}
 
@@ -65,8 +66,8 @@ GLint Model::LoadModel(const std::string& filename)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 
-	delete vboData;
-	delete iboData;
+	delete[] vboData;
+	delete[] iboData;
 	fclose(fmodel);
 
 	return 0;

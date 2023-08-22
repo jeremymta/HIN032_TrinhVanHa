@@ -129,7 +129,7 @@ class Matrix
 {
 public:
 	//constructors
-	Matrix() {}
+	Matrix() {};
 	Matrix(GLfloat val);
 	Matrix(Matrix & mat);
 

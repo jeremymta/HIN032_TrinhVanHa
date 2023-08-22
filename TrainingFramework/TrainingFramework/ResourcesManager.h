@@ -15,7 +15,6 @@ enum ResourceType
 	RT_MODEL,
 	RT_SHADER,
 	RT_TEXTURE,
-	RT_SOUND,
 	RT_INVALID = -1
 };
 
