@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Model.h"
 #include "Texture.h"
 #include "Shaders.h"
@@ -25,8 +24,6 @@ public:
 	Object(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shaders> shader);
 	~Object();
 
-	//bool Load(char* modelPath, char* texturePath, char* VSpath, char* FSpath);
-
 	void Draw();
 	void CleanUp();
 	void Update(float deltaTime);
@@ -34,14 +31,10 @@ public:
 
 	void SetCamera(std::shared_ptr<Camera> camera);
 	void SetModelMatrix(Vector3 scale, Vector3 rotation, Vector3 position);
-	//Camera* m_Camera;
+	
 	std::shared_ptr<Camera> m_Camera;
 
 public:
-	//Model* m_model;
-	//Texture* m_texture;
-	//Shaders* m_shader;
-
 	std::shared_ptr<Model> m_model;
 	std::shared_ptr<Shaders> m_shader;
 	std::shared_ptr<Texture> m_texture;
@@ -49,6 +42,4 @@ public:
 	Matrix worldMatrix;
 	Matrix WVP;
 	float moveSpeed = 1.f;
-
-
 };

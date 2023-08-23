@@ -3,7 +3,6 @@
 #include "ResourcesManager.h"
 #include  "Globals.h"
 
-
 SceneManager* SceneManager::GetInstance()
 {
 	if (!s_Instance)
@@ -24,7 +23,6 @@ bool SceneManager::Init(char* pathToSM)
 	std::string line;
 	std::getline(file, line);
 	int NumOfObject;
-
 
 	//read object property
 	sscanf_s(line.c_str(), "#Objects: %d", &NumOfObject);
@@ -103,7 +101,6 @@ void SceneManager::Draw()
 	}
 	//m_Objects->at(1)->Draw();
 
-
 }
 void SceneManager::Update(float deltaTime)
 {
@@ -115,7 +112,7 @@ void SceneManager::Update(float deltaTime)
 		m_Camera->Move(Camera_Movement::LEFT, deltaTime);
 	}
 	if (KeyPress & (1 << 1)) {
-		m_Camera->Move(Camera_Movement::RIGHT, deltaTime);
+		m_Camera->Move(RIGHT, deltaTime);
 	}
 	if (KeyPress & (1 << 2)) {
 		m_Camera->Move(FORWARD, deltaTime);

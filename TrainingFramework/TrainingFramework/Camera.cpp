@@ -2,7 +2,6 @@
 #include "Camera.h"
 #include "Globals.h"
 
-
 Camera::Camera(float Near, float Far, float Fov, Vector3 Postiton, Vector3 Target)
 {
     float PI = 3.14;
@@ -19,11 +18,11 @@ Camera::Camera(float Near, float Far, float Fov, Vector3 Postiton, Vector3 Targe
     this->m_cameraTarget = Target;
 
     //Tinh toan ma tran perspective tu cac tham so khai bao o tren
-    this->m_PerspectiveMatrix = m_PerspectiveMatrix.SetPerspective(m_FovY, m_AspectRatio, m_Near, m_Far);
-
+    this->m_ProjectionMatrix = Matrix().SetPerspective(m_FovY, m_AspectRatio, m_Near, m_Far);
+    this->m_ProjectionMatrix = Matrix().SetOrthographicMatrix(-1.f, 1.f, 0.f, Globals::screenWidth, 0, Globals::screenHeight);
+    
     //cap nhat cac vector truc (xAxis, yAxis, zAxis) cua camera ban đau.
     UpdateCameraVector();
-
 }
 
 Matrix Camera::GetWorldMatrix()
@@ -34,14 +33,15 @@ Matrix Camera::GetWorldMatrix()
 
 Matrix Camera::GetViewMatrix()
 {
+    UpdateCameraVector();
     // Tra ve ma tran chuyen doi tu khong gian World ve khong gian View cua Camera
     return Matrix().SetCameraViewMatrix(xAxis, yAxis, zAxis, m_cameraPos);
 }
 
-Matrix Camera::GetPerspectiveMatrix()
+Matrix Camera::GetProjectionMatrix()
 {
     //Tra ve ma tran chieu cua Perspective cua Camera
-    return this->m_PerspectiveMatrix;
+    return this->m_ProjectionMatrix;
 }
 
 Matrix Camera::RotateAroundY(float angle)
@@ -138,7 +138,6 @@ void Camera::RotateCounterClockWise(Camera_Rotate rot, float deltaTime)
     }
 }
 
-
 //Di chuyen Camera va diem nhin dua theo cac vector truc va van toc tinh duoc
 void Camera::Move(Camera_Movement direction, float deltaTime)
 {
@@ -150,27 +149,30 @@ void Camera::Move(Camera_Movement direction, float deltaTime)
         //Di chuyen ve phia truoc
     case FORWARD:
     {
-        //Cap nhat vi tri va diem nhin camera dua tren truc Z
+        /*Cap nhat vi tri va diem nhin camera dua tren truc Z
         m_cameraPos -= zAxis * velocity;
         m_cameraTarget -= zAxis * velocity;
+        */
+        m_cameraPos += yAxis * velocity;
+        m_cameraTarget += yAxis * velocity;
     }
     break;
     case BACKWARD:
     {
-        m_cameraPos += zAxis * velocity;
-        m_cameraTarget += zAxis * velocity;
+        m_cameraPos -= yAxis * velocity;
+        m_cameraTarget -= yAxis * velocity;
     }
     break;
     case LEFT:
     {
-        m_cameraPos -= xAxis * velocity;
-        m_cameraTarget -= xAxis * velocity;
+        m_cameraPos += xAxis * velocity;
+        m_cameraTarget += xAxis * velocity;
     }
     break;
     case RIGHT:
     {
-        m_cameraPos += xAxis * velocity;
-        m_cameraTarget += xAxis * velocity;
+        m_cameraPos -= xAxis * velocity;
+        m_cameraTarget -= xAxis * velocity;
     }
     break;
     default: break;

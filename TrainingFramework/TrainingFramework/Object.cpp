@@ -5,35 +5,15 @@
 
 Object::Object(char* modelPath, char* texturePath, char* VSpath, char* FSpath)
 {
-	//	m_model = new Model();
-	//	m_texture = new Texture();
-	//	m_shader = new Shaders();
-	//	m_model->LoadModel(modelPath);
-	//	m_texture->LoadTexture(texturePath);
-	//	m_shader->Init(VSpath, FSpath);
-	//
-	//	float PI = 3.14;
-	//	m_Camera = new Camera(0.1f, 500.f, PI / 4.f);
-	//
-	//	worldMatrix.SetIdentity();
-	//	//model.Display();
-	//	WVP = worldMatrix * m_Camera->GetViewMatrix() * m_Camera->GetPerspectiveMatrix();
-
 }
+
 Object::Object(Model* model, Texture* texture, Shaders* shader)
 {
-		//m_model = model;
-		//m_texture = texture;
-		//m_shader = shader;
-	
 		float PI = 3.14;
-		//m_Camera = new Camera(0.1f, 500.f, PI / 4);
-	
-		//model.SetRotationY(PI / 2);
 		this->worldMatrix.SetIdentity();
 		this->worldMatrix = Matrix().SetScale(5, 2, 2) * Matrix().SetRotationY(PI) * Matrix().SetTranslation(1, 0, 0);
 	
-		//WVP = this->model * m_Camera->GetViewMatrix() * m_Camera->GetPerspectiveMatrix();
+		WVP = this->worldMatrix * m_Camera->GetViewMatrix() * m_Camera->GetProjectionMatrix();
 }
 
 Object::Object(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shaders> shader)
@@ -50,38 +30,16 @@ Object::Object(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, s
 	this->worldMatrix = Matrix().SetScale(5, 2, 2) * Matrix().SetRotationY(PI) * Matrix().SetTranslation(1, 0, 0);
 }
 
-
 Object::~Object()
 {
 
 }
-
-/*
-bool Object::Load(char* modelPath, char* texturePath, char* VSpath, char* FSpath)
-{
-	m_model = new Model();
-	m_texture = new Texture();
-	m_shader = new Shaders();
-	m_model->LoadModel(modelPath);
-	m_texture->LoadTexture(texturePath);
-	m_shader->Init(VSpath, FSpath);
-
-	camera = new Camera();
-	float PI = 3.14;
-	model.SetIdentity();
-	//model.Display();
-	WVP = model * camera->GetViewMatrix() * camera->GetPerspectiveMatrix();
-
-	return true;
-}
-*/
 
 void Object::CleanUp()
 {
 	glDeleteBuffers(1, &this->m_model->m_vboId);
 	glDeleteBuffers(1, &(this->m_model->m_iboId));
 	glDeleteTextures(1, &this->m_texture->m_TextureId);
-
 }
 
 void Object::Draw() {
@@ -92,7 +50,6 @@ void Object::Draw() {
 	glBindBuffer(GL_ARRAY_BUFFER, m_model->m_vboId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_model->m_iboId);
 	glBindTexture(GL_TEXTURE_2D, m_texture->m_TextureId);
-	//glEnable(GL_DEPTH_TEST);
 
 	//Thiet lap vertex attribute pointer cho vi tri
 	if (m_shader->positionAttribute != -1)
@@ -118,7 +75,6 @@ void Object::Draw() {
 		glUniformMatrix4fv(m_shader->WVP_Mat, 1, GL_FALSE, (float*)&WVP);
 	}
 
-
 	glDrawElements(GL_TRIANGLES, m_model->numIndices, GL_UNSIGNED_INT, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -127,33 +83,25 @@ void Object::Draw() {
 
 void Object::Update(float deltaTime)
 {
-
-	/*Vector3 deltaMove = (camera->m_cameraTarget - camera->m_cameraPos).Normalize() * deltaTime * camera->m_MoveSpeed;
-	camera->m_cameraPos += deltaMove;
-	camera->m_cameraTarget += deltaMove;*/
-
-	//camera->m_cameraTarget.Display();
-
-	/*camera->RotateCounterClockWise(Camera_Rotate::xAxis, deltaTime * camera->m_RotateSpeed);
-	camera->UpdateCameraVector();*/
 	m_Camera->UpdateCameraVector();
-	WVP = worldMatrix * m_Camera->GetViewMatrix() * m_Camera->GetPerspectiveMatrix();
+	WVP = worldMatrix * m_Camera->GetViewMatrix() * m_Camera->GetProjectionMatrix();
 }
 
 void Object::Move(float deltaTime)
 {
 	float velocity = moveSpeed * deltaTime;
 	worldMatrix = worldMatrix * Matrix().SetTranslation(-velocity, 0, 0);
-	//model.Display();
 }
-
 
 void Object::SetCamera(std::shared_ptr<Camera> camera)
 {
 	this->m_Camera = camera;
+	m_Camera->UpdateCameraVector();
+	WVP = worldMatrix * m_Camera->GetViewMatrix() * m_Camera->GetProjectionMatrix();
 }
 
 void Object::SetModelMatrix(Vector3 scale, Vector3 rotation, Vector3 position)
 {
 	worldMatrix = Matrix().SetScale(scale) * Matrix().SetRotationZ(rotation[2]) * Matrix().SetRotationX(rotation[0]) * Matrix().SetRotationY(rotation[1]) * Matrix().SetTranslation(position);
+	WVP = worldMatrix * m_Camera->GetViewMatrix() * m_Camera->GetProjectionMatrix();
 }

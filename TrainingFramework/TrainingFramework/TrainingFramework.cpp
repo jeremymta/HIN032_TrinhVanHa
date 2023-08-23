@@ -1,6 +1,5 @@
 ﻿// TrainingFramework.cpp : Defines the entry point for the console application.
 //
-
 #include "stdafx.h"
 #include <memory>
 #include <conio.h>
@@ -18,7 +17,6 @@
 #include "SceneManager.h"
 #include "Camera.h"
 
-
 GLuint keyPressed = 0;
 std::shared_ptr<Camera> myCamera;
 
@@ -33,7 +31,6 @@ int Init(ESContext* esContext)
 	SceneManager::GetInstance()->Init("../Resources/Manager/SceneManager.txt");
 	
 	return 0;
-
 }
 
 void Draw(ESContext* esContext)
@@ -65,12 +62,12 @@ void OnMouseClick(ESContext* esContext, GLint x, GLint y, unsigned char key, boo
 
 void OnMouseMove(ESContext* esContext, GLint x, GLint y)
 {
-	printf("MouseMove\n");
+	//printf("MouseMove\n");
 }
 
 void OnMouseScroll(ESContext* esContext, GLint x, GLint y, short delta)
 {
-	printf("MouseScroll\n");
+	//printf("MouseScroll\n");
 }
 
 void CleanUp()

@@ -155,7 +155,8 @@ public:
 	Matrix& SetCameraRotateMatrix(Vector3& xAxis, Vector3& yAxis, Vector3& zAxis);
 	Matrix& SetCameraViewMatrix(Vector3& xAxis, Vector3& yAxis, Vector3& zAxis, Vector3& position);
 	Matrix& SetCameraWorldMatrix(Vector3& xAxis, Vector3& yAxis, Vector3& zAxis, Vector3& position);
-
+	Matrix& SetOrthographicMatrix(GLfloat nearPlane, GLfloat farPlane, GLfloat left, GLfloat right, GLfloat top, GLfloat bottom);
+	
 
 	Matrix Transpose();
 

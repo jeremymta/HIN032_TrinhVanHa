@@ -1,4 +1,3 @@
-
 #include "stdafx.h"
 #include "Math.h"
 #include <math.h>
@@ -574,6 +573,32 @@ Matrix& Matrix::SetCameraWorldMatrix(Vector3& xAxis, Vector3& yAxis, Vector3& zA
 	m[1][0] = yAxis.x; m[1][1] = yAxis.y; m[1][2] = yAxis.z; m[1][3] = 0.0f;
 	m[2][0] = zAxis.x; m[2][1] = zAxis.y; m[2][2] = zAxis.z; m[2][3] = 0.0f;
 	m[3][0] = position.x; m[3][1] = position.y; m[3][2] = position.z; m[3][3] = 1.0f;
+
+	return *this;
+}
+
+Matrix& Matrix::SetOrthographicMatrix(GLfloat nearPlane, GLfloat farPlane, GLfloat left, GLfloat right, GLfloat top, GLfloat bottom)
+{
+	// TODO: insert return statement here
+	m[0][0] = 2.f / (right - left);
+	m[0][1] = 0;
+	m[0][2] = 0;
+	m[0][3] = 0;
+
+	m[1][0] = 0;
+	m[1][1] = 2.f / (top - bottom);
+	m[1][2] = 0;
+	m[1][3] = 0;
+
+	m[2][0] = 0;
+	m[2][1] = 0;
+	m[2][2] = -2.f / (farPlane - nearPlane);
+	m[2][3] = 0;
+
+	m[3][0] = (right + left) / (left - right);
+	m[3][1] = (top + bottom) / (bottom - top);
+	m[3][2] = (farPlane + nearPlane) / (nearPlane - farPlane);
+	m[3][3] = 1.f;
 
 	return *this;
 }
