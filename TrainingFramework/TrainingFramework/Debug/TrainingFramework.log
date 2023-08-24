@@ -1,4 +1,3 @@
 ﻿cl : command line  warning D9035: option 'Gm' has been deprecated and will be removed in a future release
-  Camera.cpp
-C:\Users\han.glschool2\Desktop\HIN032_GL\Clone from git\HIN032_TrinhVanHa\TrainingFramework\TrainingFramework\Camera.cpp(7,14): warning C4305: 'initializing': truncation from 'double' to 'float'
+  SceneManager.cpp
   TrainingFramework.vcxproj -> C:\Users\han.glschool2\Desktop\HIN032_GL\Clone from git\HIN032_TrinhVanHa\TrainingFramework\BIN\TrainingFramework.exe

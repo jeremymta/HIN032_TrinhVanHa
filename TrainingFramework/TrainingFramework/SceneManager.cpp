@@ -121,7 +121,7 @@ void SceneManager::Update(float deltaTime)
 		m_Camera->Move(BACKWARD, deltaTime);
 	}
 	if (KeyPress & (1 << 4)) {
-		m_Camera->RotateCounterClockWise(yAxis, deltaTime);
+		m_Camera->RotateCounterClockWise(Camera_Rotate::yAxis, deltaTime);
 	}
 	if (KeyPress & (1 << 5)) {
 		m_Camera->RotateClockWise(yAxis, deltaTime);

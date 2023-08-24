@@ -29,23 +29,25 @@ public:
 	Vector3 m_cameraPos;
 	Vector3 m_cameraTarget;
 
-	//Toc do di chuyen va xoay
+	//Toc do di chuyen va xoay camera
 	float  m_MoveSpeed, m_RotateSpeed;
 
 	Matrix RotateAroundY(float angle); //Xoay Camera quanh truc Y 
 	Vector3 zAxis, xAxis, yAxis; //Cac vector truc
 
+	
 private:
-
-	Matrix m_ProjectionMatrix; //Ma tran perspective
+	
+	Matrix m_ProjectionMatrix; // Ma tran phep chieu (co the la Perspective hoac Orthographic)
+	
 	//Cac tham so tinh toan perspective
 	float m_FovY;
 	float m_AspectRatio;
 	float m_Near;
-
 	float m_Far;
 
-	//float currentRotationAngle = 0;
+	// Bien luu tru goc xoay cho orthographic
+	float currentRotationAngle = 0;
 
 public:
 	void UpdateCameraVector(); //Cap nhap cac vector truc

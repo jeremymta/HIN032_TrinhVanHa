@@ -17,10 +17,9 @@ Camera::Camera(float Near, float Far, float Fov, Vector3 Postiton, Vector3 Targe
     this->m_cameraPos = Postiton;
     this->m_cameraTarget = Target;
 
-    //Tinh toan ma tran perspective tu cac tham so khai bao o tren
-    this->m_ProjectionMatrix = Matrix().SetPerspective(m_FovY, m_AspectRatio, m_Near, m_Far);
-    this->m_ProjectionMatrix = Matrix().SetOrthographicMatrix(-1.f, 1.f, 0.f, Globals::screenWidth, 0, Globals::screenHeight);
-    
+    //this->m_ProjectionMatrix = Matrix().SetPerspective(m_FovY, m_AspectRatio, m_Near, m_Far);
+    this->m_ProjectionMatrix = Matrix().SetOrthographicMatrix(-1, 1, 0, Globals::screenWidth, 0, Globals::screenHeight);
+
     //cap nhat cac vector truc (xAxis, yAxis, zAxis) cua camera ban đau.
     UpdateCameraVector();
 }
@@ -41,7 +40,14 @@ Matrix Camera::GetViewMatrix()
 Matrix Camera::GetProjectionMatrix()
 {
     //Tra ve ma tran chieu cua Perspective cua Camera
-    return this->m_ProjectionMatrix;
+    //return this->m_ProjectionMatrix;
+
+    //Tao ma tran xoay dua tren currentRotationAngle
+    Matrix rotationMatrix;
+    rotationMatrix.SetRotationZ(currentRotationAngle);
+
+    //Nhan voi ma tran orthographic ban dau
+    return rotationMatrix * m_ProjectionMatrix;
 }
 
 Matrix Camera::RotateAroundY(float angle)
@@ -58,11 +64,23 @@ void Camera::UpdateCameraVector()
     yAxis = (zAxis.Cross(xAxis)).Normalize();
 }
 
+void Camera::RotateClockWise(Camera_Rotate rot, float deltaTime)
+{
+    currentRotationAngle += deltaTime;
+}
+
+void Camera::RotateCounterClockWise(Camera_Rotate rot, float deltaTime)
+{
+    currentRotationAngle -= deltaTime;
+}
+
+ /*
 //Xoay Camera theo chieu kim dong ho quanh cac truc
 void Camera::RotateClockWise(Camera_Rotate rot, float deltaTime)
 {
     //Tinh goc xoay dua vao  toc do xoay va thoi gian troi qua
     float angle = deltaTime * m_RotateSpeed;
+
     //Xac dinh truc can xoay dua vao tham so rot
     switch (rot)
     {
@@ -71,14 +89,52 @@ void Camera::RotateClockWise(Camera_Rotate rot, float deltaTime)
     {
         //Lay vecto diem tu toa do Local
         Vector4 localTarget = Vector4(0.f, 0.f, -(m_cameraTarget - m_cameraPos).Length(), 1.f);
+
         //Xoay localTarget quanh truc X voi goc angle
-        Vector4 localNewTarget = localTarget * Matrix().SetRotationAngleAxis(angle, xAxis.x, xAxis.y, xAxis.z);
+        Vector4 localNewTarget = localTarget * Matrix().SetRotationAngleAxis(-angle, xAxis.x, xAxis.y, xAxis.z);
+
         //Chuyen tu local sang toa do world
         Vector4 worldNewTarget = localNewTarget * GetWorldMatrix();
+
         //Cap nhat lai toa do world
         m_cameraTarget = Vector3(worldNewTarget[0], worldNewTarget[1], worldNewTarget[2]);
+
         //Cap nhat la camera target
         m_cameraTarget.Display();
+    }
+    break;
+    case Camera_Rotate::yAxis:
+    {
+        Vector4 localTarget = Vector4(0.f, 0.f, -(m_cameraTarget - m_cameraPos).Length(), 1.f);
+        Vector4 localNewTarget = localTarget * Matrix().SetRotationAngleAxis(angle, yAxis.x, yAxis.y, yAxis.z);
+        Vector4 worldNewTarget = localNewTarget * GetWorldMatrix();
+        m_cameraTarget = Vector3(worldNewTarget[0], worldNewTarget[1], worldNewTarget[2]);
+    }
+    break;
+    case Camera_Rotate::zAxis:
+    {
+        Vector4 localTarget = Vector4(0.f, 0.f, -(m_cameraTarget - m_cameraPos).Length(), 1.f);
+        Vector4 localNewTarget = localTarget * Matrix().SetRotationAngleAxis(-angle, zAxis.x, zAxis.y, zAxis.z);
+        Vector4 worldNewTarget = localNewTarget * GetWorldMatrix();
+        m_cameraTarget = Vector3(worldNewTarget[0], worldNewTarget[1], worldNewTarget[2]);
+    }
+    break;
+    default:
+        break;
+    }
+}
+//Xoay Camera theo chieu nguoc kim dong ho quanh cac truc
+void Camera::RotateCounterClockWise(Camera_Rotate rot, float deltaTime)
+{
+    float angle = deltaTime * m_RotateSpeed;
+    switch (rot)
+    {
+    case Camera_Rotate::xAxis:
+    {
+        Vector4 localTarget = Vector4(0.f, 0.f, -(m_cameraTarget - m_cameraPos).Length(), 1.f);
+        Vector4 localNewTarget = localTarget * Matrix().SetRotationAngleAxis(angle, xAxis.x, xAxis.y, xAxis.z);
+        Vector4 worldNewTarget = localNewTarget * GetWorldMatrix();
+        m_cameraTarget = Vector3(worldNewTarget[0], worldNewTarget[1], worldNewTarget[2]);
     }
     break;
     case Camera_Rotate::yAxis:
@@ -100,43 +156,8 @@ void Camera::RotateClockWise(Camera_Rotate rot, float deltaTime)
     default:
         break;
     }
-
 }
-
-//Xoay Camera theo chieu nguoc kim dong ho quanh cac truc
-void Camera::RotateCounterClockWise(Camera_Rotate rot, float deltaTime)
-{
-    float angle = deltaTime * m_RotateSpeed;
-    switch (rot)
-    {
-    case Camera_Rotate::xAxis:
-    {
-        Vector4 localTarget = Vector4(0.f, 0.f, -(m_cameraTarget - m_cameraPos).Length(), 1.f);
-        Vector4 localNewTarget = localTarget * Matrix().SetRotationAngleAxis(-angle, xAxis.x, xAxis.y, xAxis.z);
-        Vector4 worldNewTarget = localNewTarget * GetWorldMatrix();
-        m_cameraTarget = Vector3(worldNewTarget[0], worldNewTarget[1], worldNewTarget[2]);
-    }
-    break;
-    case Camera_Rotate::yAxis:
-    {
-        Vector4 localTarget = Vector4(0.f, 0.f, -(m_cameraTarget - m_cameraPos).Length(), 1.f);
-        Vector4 localNewTarget = localTarget * Matrix().SetRotationAngleAxis(angle, yAxis.x, yAxis.y, yAxis.z);
-        Vector4 worldNewTarget = localNewTarget * GetWorldMatrix();
-        m_cameraTarget = Vector3(worldNewTarget[0], worldNewTarget[1], worldNewTarget[2]);
-    }
-    break;
-    case Camera_Rotate::zAxis:
-    {
-        Vector4 localTarget = Vector4(0.f, 0.f, -(m_cameraTarget - m_cameraPos).Length(), 1.f);
-        Vector4 localNewTarget = localTarget * Matrix().SetRotationAngleAxis(angle, zAxis.x, zAxis.y, zAxis.z);
-        Vector4 worldNewTarget = localNewTarget * GetWorldMatrix();
-        m_cameraTarget = Vector3(worldNewTarget[0], worldNewTarget[1], worldNewTarget[2]);
-    }
-    break;
-    default:
-        break;
-    }
-}
+*/
 
 //Di chuyen Camera va diem nhin dua theo cac vector truc va van toc tinh duoc
 void Camera::Move(Camera_Movement direction, float deltaTime)
