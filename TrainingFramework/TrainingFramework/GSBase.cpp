@@ -6,6 +6,11 @@ GSBase::GSBase()
 
 }
 
+GSBase::GSBase(StateType stateType)
+{
+	m_StateType = stateType;
+}
+
 GSBase::~GSBase()
 {
 
@@ -13,5 +18,5 @@ GSBase::~GSBase()
 
 StateType GSBase::GetStateType()
 {
-	return StateType();
+	return m_StateType;
 }

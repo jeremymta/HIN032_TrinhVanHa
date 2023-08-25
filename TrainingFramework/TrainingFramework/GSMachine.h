@@ -1,30 +1,30 @@
 #pragma once
 #include "stdafx.h"
-
+#include "Singleton.h"
 #include "GSBase.h"
-#include "GSIntro.h"
-
 #include <stack>
 #include <memory>
-class GSMachine
+
+class GSMachine final : public SingletonDclp<GSMachine>
 {
-private:
-	std::stack<std::shared_ptr<GSBase>> m_StateStack;
-	std::shared_ptr<GSBase> m_ActiveState;
-	std::shared_ptr<GSBase> m_NextState;
-
 public:
-	GSMachine();
-	~GSMachine();
-
-	void ChangeState(std::shared_ptr<GSBase> state);
-	void ChangeState(StateType type);
-	void PushState(StateType type);
+	void Init();
+	void CleanUp();
+	void PushState(StateType stateType);
 	void PopState();
+	//void ChangeState(std::shared_ptr<GSBase> state);
+	//void ChangeState(StateType type);
+	void ChangeState();
+	void Exit();
 	void PerformStateChange();
 
 	std::shared_ptr<GSBase> GetCurrentState() const;
-	std::shared_ptr<GSBase> CreateGameState(StateType type);
+	//std::shared_ptr<GSBase> CreateGameState(StateType type);
+	inline bool IsRunning() { return m_running; };
 
-
+private:
+	std::stack<std::shared_ptr<GSBase>> m_pStateStack;
+	std::shared_ptr<GSBase> m_pActiveState;
+	std::shared_ptr<GSBase> m_pNextState;
+	bool m_running;
 };

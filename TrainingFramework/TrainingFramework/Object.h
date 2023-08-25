@@ -34,7 +34,20 @@ public:
 	
 	std::shared_ptr<Camera> m_Camera;
 
+	void SetRotation(Vector3 rotation);
+	void SetScale(Vector3 scale);
+	void SetPos(Vector3 pos);
+	void AttachCamera(std::shared_ptr<Camera> camera);
+	void Set2DSize(int x, int y);
+	bool m_changed;
+
 public:
+
+	Vector3 m_pos;
+	Vector3 m_scale = Vector3(1.0f, 1.0f, 1.0f);
+	Vector3 m_rotation = Vector3(0.0f, 0.0f, 0.0f);
+	Vector3 m_translation = Vector3(0.0f, m_pos.y, 0.0f);
+
 	std::shared_ptr<Model> m_model;
 	std::shared_ptr<Shaders> m_shader;
 	std::shared_ptr<Texture> m_texture;

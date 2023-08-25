@@ -1,16 +1,20 @@
 #pragma once
+#include <memory>
 #include "GSBase.h"
 #include "Object.h"
-class GSMenu :
-    public GSBase
+
+class GSMenu : public GSBase
 {
+public:
+    using GSBase::GSBase;
+    ~GSMenu() override;
     // Inherited via GSBase
-    virtual void Init() override;
-    virtual void Exit() override;
-    virtual void Pause() override;
-    virtual void Resume() override;
-    virtual void Update(float deltaTime) override;
-    virtual void Draw() override;
+    void Init() override;
+    void Exit() override;
+    void Pause() override;
+    void Resume() override;
+    void Update(float deltaTime) override;
+    void Draw() override;
 
     void HandleEvent();
     void OnKey(unsigned char key, bool pressed) override;

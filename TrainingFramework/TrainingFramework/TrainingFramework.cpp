@@ -16,12 +16,16 @@
 #include "ResourcesManager.h"
 #include "SceneManager.h"
 #include "Camera.h"
+#include "GSMachine.h"
 
 GLuint keyPressed = 0;
 std::shared_ptr<Camera> myCamera;
 
+bool running = true;
+
 int Init(ESContext* esContext)
 {
+
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 
@@ -29,7 +33,11 @@ int Init(ESContext* esContext)
 	ResourcesManager::GetInstance()->LoadResources("resources.data");
 	
 	SceneManager::GetInstance()->Init("../Resources/Manager/SceneManager.txt");
-	
+
+	GSMachine::Construct();
+	GSMachine::GetInstance()->Init();
+	GSMachine::GetInstance()->PushState(StateType::GS_INTRO);
+
 	return 0;
 }
 
@@ -37,7 +45,13 @@ void Draw(ESContext* esContext)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	SceneManager::GetInstance()->Draw();
+
+	//SceneManager::GetInstance()->Draw();
+
+	if (running)
+	{
+		GSMachine::GetInstance()->GetCurrentState()->Draw();
+	}
 
 	eglSwapBuffers(esContext->eglDisplay, esContext->eglSurface);
 }
@@ -45,29 +59,51 @@ void Draw(ESContext* esContext)
 int KeyPressed = 0;
 void Update(ESContext* esContext, float deltaTime)
 {
-	SceneManager::GetInstance()->Update(deltaTime);
-	
+	//SceneManager::GetInstance()->Update(deltaTime);
+	running = GSMachine::GetInstance()->IsRunning();
+	esContext->running = running;
+	if (running)
+	{
+		GSMachine::GetInstance()->GetCurrentState()->Update(deltaTime);
+	}
+	GSMachine::GetInstance()->ChangeState();
 }
 
 void Key(ESContext* esContext, unsigned char key, bool bIsPressed)
 {
-	SceneManager::GetInstance()->Key(key, bIsPressed);
+	//SceneManager::GetInstance()->Key(key, bIsPressed);
+	if (running)
+	{
+		GSMachine::GetInstance()->GetCurrentState()->OnKey(key, bIsPressed);
+	}
 
 }
 
 void OnMouseClick(ESContext* esContext, GLint x, GLint y, unsigned char key, bool pressed)
 {
 	printf("MouseClick\n");
+	if (running)
+	{
+		GSMachine::GetInstance()->GetCurrentState()->OnMouseClick(x, y, key, pressed);
+	}
 }
 
 void OnMouseMove(ESContext* esContext, GLint x, GLint y)
 {
 	//printf("MouseMove\n");
+	if (running)
+	{
+		GSMachine::GetInstance()->GetCurrentState()->OnMouseMove(x, y);
+	}
 }
 
 void OnMouseScroll(ESContext* esContext, GLint x, GLint y, short delta)
 {
 	//printf("MouseScroll\n");
+	if (running)
+	{
+		GSMachine::GetInstance()->GetCurrentState()->OnMouseScroll(x, y, delta);
+	}
 }
 
 void CleanUp()
@@ -76,6 +112,8 @@ void CleanUp()
 	SceneManager::GetInstance()->CleanUp();
 	ResourcesManager::DestroyInstance();
 	SceneManager::GetInstance();
+	GSMachine::GetInstance()->CleanUp();
+	GSMachine::DestroyInstance();
 
 }
 

@@ -7,17 +7,19 @@
 #include "Model.h"
 #include "Object.h"
 
-class GSIntro : public GSBase
+class  GSIntro : public GSBase
 {
-
 public:
+	using GSBase::GSBase;
+	~GSIntro() override;
+
 	// Inherited via GSBase
 	virtual void Init() override;
 	virtual void Exit() override;
 	virtual void Pause() override;
 	virtual void Resume() override;
 	virtual void Update(float deltaTime) override;
-	virtual void Draw() override;
+	 void Draw() override;
 
 	void HandleEvent() override;
 	void OnKey(unsigned char key, bool pressed) override;
