@@ -42,4 +42,5 @@ public:
 	Matrix worldMatrix;
 	Matrix WVP;
 	float moveSpeed = 1.f;
+
 };

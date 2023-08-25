@@ -43,7 +43,7 @@ GLint Model::LoadModel(const std::string& filename)
 	for (int i = 0; i < numVertices; i++)
 	{
 		fscanf_s(fmodel, "   %*d. pos:[%f, %f, %f]; norm:[%*f, %*f, %*f]; binorm:[%*f, %*f, %*f]; tgt:[%*f, %*f, %*f]; uv:[%f, %f];\n", &vboData[i].pos.x, &vboData[i].pos.y, &vboData[i].pos.z, &vboData[i].uv.x, &vboData[i].uv.y);
-		vboData[i].pos.y -= 1;
+		//vboData[i].pos.y -= 1;
 	}
 
 	fscanf_s(fmodel, "NrIndices: %d\n", &numIndices);
@@ -52,8 +52,6 @@ GLint Model::LoadModel(const std::string& filename)
 	{
 		fscanf_s(fmodel, "   %*d.    %d,    %d,    %d\n", &iboData[3 * i], &iboData[3 * i + 1], &iboData[3 * i + 2]);
 	}
-
-
 
 	glGenBuffers(1, &m_vboId);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vboId);
@@ -64,7 +62,6 @@ GLint Model::LoadModel(const std::string& filename)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_iboId);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLint) * numIndices, iboData, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
 
 	delete[] vboData;
 	delete[] iboData;

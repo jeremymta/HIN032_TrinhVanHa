@@ -1,6 +1,5 @@
 ﻿cl : command line  warning D9035: option 'Gm' has been deprecated and will be removed in a future release
   TGA.cpp
   MemoryOperators.cpp
-  MemoryManager.cpp
   Generating Code...
   Utilities.vcxproj -> C:\Users\han.glschool2\Desktop\HIN032_GL\Clone from git\HIN032_TrinhVanHa\TrainingFramework\Debug\Utilities.lib

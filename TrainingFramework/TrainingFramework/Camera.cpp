@@ -39,7 +39,7 @@ Matrix Camera::GetViewMatrix()
 
 Matrix Camera::GetProjectionMatrix()
 {
-    //Tra ve ma tran chieu cua Perspective cua Camera
+    //Tra ve ma tran chieu cua Camera
     //return this->m_ProjectionMatrix;
 
     //Tao ma tran xoay dua tren currentRotationAngle

@@ -96,6 +96,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="GSBase.cpp" />
+    <ClCompile Include="GSIntro.cpp" />
+    <ClCompile Include="GSMachine.cpp" />
+    <ClCompile Include="GSMenu.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ResourcesManager.cpp" />
@@ -111,6 +115,10 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="GSBase.h" />
+    <ClInclude Include="GSIntro.h" />
+    <ClInclude Include="GSMachine.h" />
+    <ClInclude Include="GSMenu.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ResourcesManager.h" />

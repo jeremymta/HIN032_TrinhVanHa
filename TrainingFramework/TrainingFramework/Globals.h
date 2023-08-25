@@ -20,3 +20,5 @@ public:
 #define KEY_MOVE_RIGHT		'D'
 #define KEY_MOVE_FORWARD	'W'
 #define KEY_MOVE_BACKWORD	'S'
+#define KEY_SPACE			VK_SPACE
+#define KEY_E				'E'
