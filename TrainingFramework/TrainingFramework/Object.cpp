@@ -110,6 +110,8 @@ void Object::SetRotation(Vector3 rotation)
 {
 	m_rotation = rotation;
 	m_changed = true;
+	worldMatrix = Matrix().SetRotationZ(rotation.z) * Matrix().SetRotationX(rotation.x) * Matrix().SetRotationY(rotation.y) * worldMatrix;
+	WVP = worldMatrix * m_Camera->GetViewMatrix() * m_Camera->GetProjectionMatrix();
 }
 
 void Object::SetScale(Vector3 scale)
@@ -117,7 +119,7 @@ void Object::SetScale(Vector3 scale)
 	m_scale = scale;
 	m_changed = true;
 	worldMatrix = Matrix().SetScale(scale) * worldMatrix;
-
+	WVP = worldMatrix * m_Camera->GetViewMatrix() * m_Camera->GetProjectionMatrix();
 }
 
 void Object::SetPos(Vector3 pos)
@@ -126,12 +128,14 @@ void Object::SetPos(Vector3 pos)
 	m_translation = pos;
 	worldMatrix =  worldMatrix * Matrix().SetTranslation(pos);
 	m_changed = true;
+	WVP = worldMatrix * m_Camera->GetViewMatrix() * m_Camera->GetProjectionMatrix();
 }
 
 void Object::AttachCamera(std::shared_ptr<Camera> camera)
 {
 	m_Camera = camera;
 	m_changed = true;
+	WVP = worldMatrix * m_Camera->GetViewMatrix() * m_Camera->GetProjectionMatrix();
 }
 
 void Object::Set2DSize(int x, int y)

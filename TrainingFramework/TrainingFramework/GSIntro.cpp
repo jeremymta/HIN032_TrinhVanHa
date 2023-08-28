@@ -19,8 +19,10 @@ void GSIntro::Init()
 	m_obj = std::make_shared<Object>(model, texture, shader);
 	auto camera = SceneManager::GetInstance()->GetCamera();
 	m_obj->AttachCamera(camera);
-	m_obj->Set2DSize(100, 100);
-	m_obj->SetPos({ 200, 200, 0 });
+	m_obj->Set2DSize(50, 100);
+	m_obj->SetPos({ 500, 300, 0 });
+	m_obj->SetRotation(Vector3(0.0f, 3.14f/2, 3.14f));
+	m_obj->SetScale(Vector3(0.5f, 0.5f, 0.5f));
 
 }
 
@@ -46,6 +48,7 @@ void GSIntro::Update(float deltaTime)
 	}
 	
 		m_obj->Update(deltaTime);
+		SceneManager::GetInstance()->Update(deltaTime);
 	
 }
 
@@ -86,12 +89,14 @@ void GSIntro::OnKey(unsigned char key, bool pressed)
 			break;
 		case KEY_E:
 			m_key ^= 1 << 1;
-			GSMachine::GetInstance()->Exit();
+			//GSMachine::GetInstance()->Exit();
+			exit(0);
 			break;
 		default:
 			break;
 		}
 	}
+	SceneManager::GetInstance()->Key(key, pressed);
 	
 }
 
