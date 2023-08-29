@@ -131,9 +131,11 @@
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Readme.doc" />
+    <None Include="..\Resources\Shaders\TextureShader.fs" />
+    <None Include="..\Resources\Shaders\TextureShader.vs" />
     <None Include="..\Resources\Shaders\TriangleShaderFS.fs" />
     <None Include="..\Resources\Shaders\TriangleShaderVS.vs" />
-    <None Include="..\Readme.doc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Utilities\Utilities.vcxproj">

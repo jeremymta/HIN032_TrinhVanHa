@@ -21,7 +21,7 @@
 GLuint keyPressed = 0;
 std::shared_ptr<Camera> myCamera;
 
-bool running = true;
+bool running;
 
 int Init(ESContext* esContext)
 {

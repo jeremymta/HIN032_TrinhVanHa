@@ -121,16 +121,16 @@ void SceneManager::Update(float deltaTime)
 		m_Camera->Move(BACKWARD, deltaTime);
 	}
 	if (KeyPress & (1 << 4)) {
-		m_Camera->RotateCounterClockWise(Camera_Rotate::yAxis, deltaTime);
+		m_Camera->RotateCounterClockWise(Camera_Rotate::zAxis, deltaTime);
 	}
 	if (KeyPress & (1 << 5)) {
-		m_Camera->RotateClockWise(yAxis, deltaTime);
+		m_Camera->RotateClockWise(zAxis, deltaTime);
 	}
 	if (KeyPress & (1 << 6)) {
-		m_Camera->RotateCounterClockWise(xAxis, deltaTime);
+		m_Camera->RotateCounterClockWise(yAxis, deltaTime);
 	}
 	if (KeyPress & (1 << 7)) {
-		m_Camera->RotateClockWise(xAxis, deltaTime);
+		m_Camera->RotateClockWise(yAxis, deltaTime);
 	}
 }
 void SceneManager::Key(unsigned char key, bool bIsPressed)

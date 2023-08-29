@@ -1,6 +1,7 @@
 #pragma once
 #include<string>
 #include <GLES2/gl2.h>
+#include "../Utilities/utilities.h"
 
 class Texture
 {
@@ -13,8 +14,7 @@ public:
 	bool LoadTexture(const std::string& filename);
 
 	GLuint m_TextureId;
-
 	GLuint getTextureId() { return m_TextureId; };
 
-
+	
 };

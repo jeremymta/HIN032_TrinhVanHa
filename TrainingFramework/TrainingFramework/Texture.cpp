@@ -2,7 +2,8 @@
 #include "Texture.h"
 #include "../Utilities/TGA.h"
 #include<iostream>
-
+#include <algorithm>
+#include "../Utilities/PNG.h"
 
 Texture::Texture()
 {
@@ -59,18 +60,61 @@ void Texture::SetWrap(GLint wrapMode)
 
 bool Texture::LoadTexture(const std::string& filename)
 {
+	// check if file exist
+	FILE* f;
+	fopen_s(&f, filename.c_str(), "r");
+	if (!f)
+	{
+		std::cerr << "Couldn't open file: " << filename << "\n";
+		return -1;
+	}
+	std::cout << "Open " << filename << "\n";
+	fclose(f);
+
+	// check file extension
+	size_t dotPos = filename.find_last_of('.');
+	if (dotPos == std::string::npos)
+	{
+		std::cerr << "File type not supported\n";
+		return -2;
+	}
+
 	//Generate the texture
 	glGenTextures(1, &m_TextureId);
-
 	// Bind and load Texture data.
 	glBindTexture(GL_TEXTURE_2D, m_TextureId);
+
 	GLint iWidth, iHeight, iBpp;
-	char* imageData = LoadTGA(filename.c_str(), &iWidth, &iHeight, &iBpp);
-	if (imageData && iBpp == 24) {
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, iWidth, iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+
+	// load pixel data
+	char* pixelData = nullptr;
+	std::string ext = filename.substr(dotPos + 1);
+	std::transform(ext.begin(), ext.end(), ext.begin(), [](GLubyte c) {
+		return std::tolower(c);
+		});
+
+	if (ext == "png")
+	{
+		// TODO: PNG load
+		pixelData = LoadPNG(filename, &iWidth, &iHeight, &iBpp);
 	}
-	else if (imageData && iBpp == 32) {
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+	else if (ext == "tga")
+	{
+		pixelData = LoadTGA(filename.c_str(), &iWidth, &iHeight, &iBpp);
+	}
+	else
+	{
+		std::cerr << "File type not supported\n";
+		return -2;
+	}
+
+	//char* imageData = LoadTGA(filename.c_str(), &iWidth, &iHeight, &iBpp);
+
+	if (pixelData && iBpp == 24) {
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, iWidth, iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, pixelData);
+	}
+	else if (pixelData && iBpp == 32) {
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixelData);
 	}
 	else {
 		return true;
@@ -81,9 +125,12 @@ bool Texture::LoadTexture(const std::string& filename)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	
+	// clean up
 	glBindTexture(GL_TEXTURE_2D, 0);
+	if (ext == "tga") delete pixelData;
+	if (ext == "png") free(pixelData);
 
-	delete[]imageData;
 	return false;
 }
 
