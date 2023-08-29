@@ -19,16 +19,6 @@ void GSMachine::CleanUp()
 	m_pActiveState = m_pNextState = nullptr;
 }
 
-//void GSMachine::ChangeState(std::shared_ptr<GSBase> state)
-//{
-//	this->m_pNextState = state;
-//}
-//
-//void GSMachine::ChangeState(StateType type)
-//{
-//	ChangeState(CreateGameState(type));
-//}
-
 void GSMachine::ChangeState()
 {
 	if (m_pNextState)
@@ -96,27 +86,6 @@ std::shared_ptr<GSBase> GSMachine::GetCurrentState() const
 {
 	return m_pActiveState;
 }
-
-/*
-std::shared_ptr<GSBase> GSMachine::CreateGameState(StateType type)
-{
-	switch (type)
-	{
-	case StateType::GS_INTRO:
-	{
-		return std::make_shared<GSIntro>();
-	}
-	case StateType::GS_MENU:
-	{
-		return std::make_shared<GSMenu>();
-	}
-	break;
-	default:
-		break;
-	}
-	return std::shared_ptr<GSBase>();
-}
-*/
 
 std::shared_ptr<GSBase> CreateState(StateType stateType)
 {

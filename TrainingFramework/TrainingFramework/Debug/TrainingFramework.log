@@ -1,3 +1,23 @@
-﻿cl : command line  warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+﻿cl : command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  stdafx.cpp
+cl : command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  Shaders.cpp
+  TrainingFramework.cpp
+  Texture.cpp
+  SceneManager.cpp
+  ResourcesManager.cpp
+  Object.cpp
+C:\Users\trinh\OneDrive\Desktop\HIN032_GL\Clone Fr_25_08_2023\HIN032_TrinhVanHa\TrainingFramework\TrainingFramework\Object.cpp(12,18): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\trinh\OneDrive\Desktop\HIN032_GL\Clone Fr_25_08_2023\HIN032_TrinhVanHa\TrainingFramework\TrainingFramework\Object.cpp(25,17): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\trinh\OneDrive\Desktop\HIN032_GL\Clone Fr_25_08_2023\HIN032_TrinhVanHa\TrainingFramework\TrainingFramework\Object.cpp(139,26): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\trinh\OneDrive\Desktop\HIN032_GL\Clone Fr_25_08_2023\HIN032_TrinhVanHa\TrainingFramework\TrainingFramework\Object.cpp(139,23): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+  Model.cpp
+  GSMenu.cpp
+  GSMachine.cpp
   GSIntro.cpp
-  TrainingFramework.vcxproj -> C:\Users\han.glschool2\Desktop\HIN032_GL\Clone from git\HIN032_TrinhVanHa\TrainingFramework\BIN\TrainingFramework.exe
+  GSBase.cpp
+  Camera.cpp
+C:\Users\trinh\OneDrive\Desktop\HIN032_GL\Clone Fr_25_08_2023\HIN032_TrinhVanHa\TrainingFramework\TrainingFramework\Camera.cpp(7,20): warning C4305: 'initializing': truncation from 'double' to 'float'
+  Generating Code...
+Camera.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+  TrainingFramework.vcxproj -> C:\Users\trinh\OneDrive\Desktop\HIN032_GL\Clone Fr_25_08_2023\HIN032_TrinhVanHa\TrainingFramework\BIN\TrainingFramework.exe

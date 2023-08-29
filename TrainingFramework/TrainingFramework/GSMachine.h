@@ -12,14 +12,11 @@ public:
 	void CleanUp();
 	void PushState(StateType stateType);
 	void PopState();
-	//void ChangeState(std::shared_ptr<GSBase> state);
-	//void ChangeState(StateType type);
 	void ChangeState();
 	void Exit();
 	void PerformStateChange();
 
 	std::shared_ptr<GSBase> GetCurrentState() const;
-	//std::shared_ptr<GSBase> CreateGameState(StateType type);
 	inline bool IsRunning() { return m_running; };
 
 private:
