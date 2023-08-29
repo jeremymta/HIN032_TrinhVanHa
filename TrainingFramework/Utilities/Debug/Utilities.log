@@ -2,6 +2,7 @@
   stdafx.cpp
 cl : command line  warning D9035: option 'Gm' has been deprecated and will be removed in a future release
   TGA.cpp
+  PNG.cpp
   MemoryOperators.cpp
   MemoryManager.cpp
   Math.cpp

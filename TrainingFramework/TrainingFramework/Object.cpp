@@ -3,9 +3,9 @@
 #include "Vertex.h"
 #include <memory>
 
-Object::Object(char* modelPath, char* texturePath, char* VSpath, char* FSpath)
-{
-}
+//Object::Object(char* modelPath, char* texturePath, char* VSpath, char* FSpath)
+//{
+//}
 
 Object::Object(Model* model, Texture* texture, Shaders* shader)
 {

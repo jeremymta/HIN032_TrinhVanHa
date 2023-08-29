@@ -118,12 +118,18 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Readme.doc" />
     <None Include="..\Resources\Shaders\TriangleShaderFS.fs">
       <Filter>Resources\Shaders</Filter>
     </None>
     <None Include="..\Resources\Shaders\TriangleShaderVS.vs">
       <Filter>Resources\Shaders</Filter>
     </None>
-    <None Include="..\Readme.doc" />
+    <None Include="..\Resources\Shaders\TextureShader.fs">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\TextureShader.vs">
+      <Filter>Resources\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

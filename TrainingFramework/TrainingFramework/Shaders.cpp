@@ -1,4 +1,4 @@
-#include <stdafx.h>
+#include "stdafx.h"
 #include "Shaders.h"
 
 int Shaders::Init(const char* fileVertexShader, const char* fileFragmentShader)
@@ -23,7 +23,7 @@ int Shaders::Init(const char* fileVertexShader, const char* fileFragmentShader)
 	//colorAttribute = glGetAttribLocation(program, "a_color");
 
 	//setting texture uniform:
-	// Lay vi tri uniform texture
+	//1. Lay vi tri uniform texture
 	iTextureLoc = glGetUniformLocation(program, "u_texture");
 	iTextCoordLoc = glGetAttribLocation(program, "a_uv");
 

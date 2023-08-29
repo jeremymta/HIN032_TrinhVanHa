@@ -1,12 +1,12 @@
 #Models: 2
 ID 0
-FILE "Woman1.nfg"
+FILE "Rectangle.nfg"
 ID 1
 FILE "Woman2.nfg"
 
 #2D_Textures: 2
 ID 0
-FILE "Woman1.tga"
+FILE "intro.png"
 WRAP REPEAT
 FILTER LINEAR
 ID 1

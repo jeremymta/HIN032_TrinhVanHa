@@ -19,7 +19,7 @@ enum Rotation {
 class Object
 {
 public:
-	Object(char* modelPath, char* texturePath, char* VSpath, char* FSpath);
+	//Object(char* modelPath, char* texturePath, char* VSpath, char* FSpath);
 	Object(Model* model, Texture* texture, Shaders* shader);
 	Object(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shaders> shader);
 	~Object();

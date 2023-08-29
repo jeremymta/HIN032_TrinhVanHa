@@ -20,9 +20,9 @@ void GSIntro::Init()
 	auto camera = SceneManager::GetInstance()->GetCamera();
 	m_obj->AttachCamera(camera);
 	m_obj->Set2DSize(50, 100);
-	m_obj->SetPos({ 500, 300, 0 });
-	m_obj->SetRotation(Vector3(0.0f, 3.14f/2, 3.14f));
-	m_obj->SetScale(Vector3(0.5f, 0.5f, 0.5f));
+	m_obj->SetPos(Vector3( 400, 300, 0 ));
+	//m_obj->SetRotation(Vector3(0.0f, 3.14f/2, 3.14f));
+	m_obj->SetScale(Vector3(1.0f, 1.0f, 0.5f));
 
 }
 
