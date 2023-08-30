@@ -13,16 +13,17 @@ void GSMenu::Init()
 {
 	m_key = 0;
 	m_mouse = 0;
-	auto model = ResourcesManager::GetInstance()->getModel(1);
+	auto model = ResourcesManager::GetInstance()->getModel(0);
 	auto shader = ResourcesManager::GetInstance()->getShader(0);
 	auto texture = ResourcesManager::GetInstance()->getTexture(1);
 	m_obj = std::make_shared<Object>(model, texture, shader);
 	auto camera = SceneManager::GetInstance()->GetCamera();
 	m_obj->AttachCamera(camera);
-	m_obj->Set2DSize(50, 100);
-	m_obj->SetPos({ 300, 500, 0 });
-	m_obj->SetRotation(Vector3(0.0f, 3.14f, 3.14f));
-	m_obj->SetScale(Vector3(1.0f, 1.0f, 1.0f));
+	m_obj->Set2DSize(100, 200);
+	m_obj->SetPos({ 800, 200, 0 });
+	m_obj->SetRotation(Vector3(0, 0, 0));
+	//m_obj->SetRotation(Vector3(0.0f, 3.14f, 3.14f));
+	m_obj->SetScale(Vector3(1.0f, 1.0f, 0.0f));
 
 
 }
@@ -43,7 +44,7 @@ void GSMenu::Resume()
 void GSMenu::Update(float deltaTime)
 {
 	m_obj->Update(deltaTime);
-	SceneManager::GetInstance()->Update(deltaTime);
+	//SceneManager::GetInstance()->Update(deltaTime);
 }
 
 void GSMenu::Draw()

@@ -21,14 +21,33 @@ void GSIntro::Init()
 	m_obj->AttachCamera(camera);
 	m_obj->Set2DSize(50, 100);
 	m_obj->SetPos(Vector3( 400, 300, 0 ));
+	m_obj->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
 	//m_obj->SetRotation(Vector3(0.0f, 3.14f/2, 3.14f));
 	m_obj->SetScale(Vector3(1.0f, 1.0f, 0.5f));
 
 }
 
-void GSIntro::Exit()
+void GSIntro::Update(float deltaTime)
 {
-	m_obj.reset();
+	m_time -= deltaTime;
+	if (m_key & (1 << 0)) // space pressed
+	{
+		//GSMachine::GetInstance()->PushState(StateType::GS_MENU);
+	}
+	/*if (m_obj->m_changed)
+	{
+		m_obj->Update(deltaTime);
+	}*/
+	m_obj->Update(deltaTime);
+	SceneManager::GetInstance()->Update(deltaTime);
+
+}
+
+void GSIntro::Draw()
+{
+	m_obj->Draw();
+	//SceneManager::GetInstance()->Draw();
+
 }
 
 void GSIntro::Pause()
@@ -39,24 +58,9 @@ void GSIntro::Resume()
 {
 }
 
-void GSIntro::Update(float deltaTime)
+void GSIntro::Exit()
 {
-	m_time -= deltaTime;
-	if (m_key & (1 << 0)) // space pressed
-	{
-		GSMachine::GetInstance()->PushState(StateType::GS_MENU);
-	}
-	
-		m_obj->Update(deltaTime);
-		SceneManager::GetInstance()->Update(deltaTime);
-	
-}
-
-void GSIntro::Draw()
-{
-	m_obj->Draw();
-	//SceneManager::GetInstance()->Draw();
-
+	m_obj.reset();
 }
 
 void GSIntro::HandleEvent()
@@ -89,8 +93,8 @@ void GSIntro::OnKey(unsigned char key, bool pressed)
 			break;
 		case KEY_E:
 			m_key ^= 1 << 1;
-			//GSMachine::GetInstance()->Exit();
-			exit(0);
+			GSMachine::GetInstance()->Exit();
+			//exit(0);
 			break;
 		default:
 			break;

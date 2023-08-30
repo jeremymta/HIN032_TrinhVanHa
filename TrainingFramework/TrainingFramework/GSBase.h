@@ -12,7 +12,7 @@ class GSBase
 {
 public:
 
-	GSBase();
+	GSBase() {};
 	GSBase(StateType stateType);
 	virtual ~GSBase();
 

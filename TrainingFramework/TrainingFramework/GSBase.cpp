@@ -1,11 +1,6 @@
 #include "stdafx.h"
 #include "GSBase.h"
 
-GSBase::GSBase()
-{
-
-}
-
 GSBase::GSBase(StateType stateType)
 {
 	m_StateType = stateType;

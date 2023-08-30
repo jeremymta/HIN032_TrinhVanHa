@@ -1,2 +1,4 @@
-﻿Camera.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+﻿cl : command line  warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  GSIntro.cpp
+Camera.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
   TrainingFramework.vcxproj -> C:\Users\han.glschool2\Desktop\HIN032_GL\Clone 30_08_2023\HIN032_TrinhVanHa\TrainingFramework\BIN\TrainingFramework.exe

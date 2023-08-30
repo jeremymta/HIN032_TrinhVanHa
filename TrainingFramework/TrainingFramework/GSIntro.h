@@ -11,7 +11,7 @@ class  GSIntro : public GSBase
 {
 public:
 	using GSBase::GSBase;
-	~GSIntro() override;
+	~GSIntro();
 
 	// Inherited via GSBase
 	void Init() override;
